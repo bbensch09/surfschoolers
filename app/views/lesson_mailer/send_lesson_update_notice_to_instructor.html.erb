@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Lesson Update Notice</h1>
+    <p>Original Lesson:</p>
+    <ul>
+      <li>Requester: <%= @original_lesson.requester.name %></li>
+      <li>Students: <%= @lesson.students.map(&:name).join(', ') %></li>
+      <li>Date: <%= @original_lesson.date %></li>
+      <li>Slot: <%= @original_lesson.slot %></li>
+      <li>Duration: <%= "#{@original_lesson.duration} hours" if @original_lesson.duration %></li>
+      <li>Start Time: <%= @original_lesson.start_time %></li>
+      <li>Location: <%= @original_lesson.location %></li>
+      <li>Gear: <%= @original_lesson.gear? ? 'Yes' : 'No' %></li>
+      <li>Objectives: <%= @original_lesson.objectives %></li>
+    </ul>
+    <p>Changes:</p>
+    <ul>
+      <% @changed_attributes.each do |attribute, change| %>
+        <% if attribute == 'duration' %>
+          <li><%= attribute.titleize %>: <%= change.kind_of?(Array) ? change[1] : change %> hours</li>
+        <% else %>
+          <li><%= attribute.titleize %>: <%= change.kind_of?(Array) ? change[1] : change %></li>
+        <% end %>
+      <% end %>
+    </ul>
+    <p>
+      Please go to the lesson page below and take an action.
+      If this still works for you, click the 'Confirm Updates'
+      button to reconfirm your lesson. If you are no longer able
+      to take this lesson, click the 'Drop It' button so we can 
+      reassign the lesson to another instructor.
+    </p>
+    <p>
+      <%= lesson_url(@updated_lesson) %>
+    </p>
+  </body>
+</html>
