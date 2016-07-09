@@ -1,0 +1,15 @@
+# :output:
+#   Profile:
+#     :options:
+#       :fields:
+#         - id
+#         - user_id
+#         - display_name
+
+#   User:
+#     :options:
+#       :fields:
+#         - id
+#         - email
+#         - rank
+#
