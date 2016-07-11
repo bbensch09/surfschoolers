@@ -32647,3 +32647,1819 @@ Started GET "/assets/demo/slider/happy.jpg" for 127.0.0.1 at 2016-07-08 16:30:07
 
 
 Started GET "/assets/jquery-ui/ui-bg_flat_75_ffffff_40x100.png" for 127.0.0.1 at 2016-07-08 16:30:07 -0700
+  [1m[36m (121.8ms)[0m  [1mDROP DATABASE IF EXISTS "snow_schoolers_development"[0m
+  [1m[35m (116.7ms)[0m  DROP DATABASE IF EXISTS "snow_schoolers_test"
+  [1m[36m (344.0ms)[0m  [1mCREATE DATABASE "snow_schoolers_development" ENCODING = 'unicode'[0m
+  [1m[35m (245.4ms)[0m  CREATE DATABASE "snow_schoolers_test" ENCODING = 'unicode'
+  [1m[36mSQL (5.0ms)[0m  [1mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (22.6ms)[0m  CREATE TABLE "beta_users" ("id" serial primary key, "email" character varying(255), "user_type" character varying(255), "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (2.5ms)[0m  [1mCREATE TABLE "lesson_times" ("id" serial primary key, "date" date, "slot" character varying(255)) [0m
+  [1m[35m (3.0ms)[0m  CREATE TABLE "lessons" ("id" serial primary key, "requester_id" integer, "instructor_id" integer, "lesson_time_id" integer, "created_at" timestamp, "updated_at" timestamp, "activity" character varying(255), "location" character varying(255), "gear" boolean, "objectives" text, "state" character varying(255), "duration" integer, "start_time" character varying(255), "actual_start_time" character varying(255), "actual_end_time" character varying(255), "actual_duration" float, "experience_level" integer, "terms_accepted" boolean) 
+  [1m[36m (1.0ms)[0m  [1mCREATE TABLE "lessons_previous_experiences" ("lesson_id" integer NOT NULL, "previous_experience_id" integer NOT NULL) [0m
+  [1m[35m (1.8ms)[0m  CREATE TABLE "previous_experiences" ("id" serial primary key, "name" character varying(255), "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (2.4ms)[0m  [1mCREATE TABLE "students" ("id" serial primary key, "lesson_id" integer, "name" character varying(255), "age_range" character varying(255), "gender" character varying(255), "relationship_to_requester" character varying(255)) [0m
+  [1m[35m (23.5ms)[0m  CREATE TABLE "users" ("id" serial primary key, "name" character varying(255), "instructor" boolean, "created_at" timestamp, "updated_at" timestamp, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "provider" character varying(255), "uid" character varying(255), "image" character varying(255)) 
+  [1m[36m (1.0ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" USING btree ("email")[0m
+  [1m[35m (0.7ms)[0m  CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" USING btree ("reset_password_token")
+  [1m[36m (6.6ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (17.9ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.4ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (0.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20160706062545')
+  [1m[36m (0.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140202205310')[0m
+  [1m[35m (0.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140202205512')
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140202205817')[0m
+  [1m[35m (0.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140202214228')
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140208235919')[0m
+  [1m[35m (0.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140209185223')
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140218015306')[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140228044910')
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140228055818')[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140301015310')
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140303060012')[0m
+  [1m[35m (0.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140313021503')
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140313034958')[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140313040810')
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140314035255')[0m
+  [1m[35m (0.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140314054318')
+  [1m[36m (0.2ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140314061619')[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (2.3ms)[0m  INSERT INTO "previous_experiences" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Sun, 10 Jul 2016 00:09:06 UTC +00:00], ["name", "Never taken a lesson before."], ["updated_at", Sun, 10 Jul 2016 00:09:06 UTC +00:00]]
+  [1m[36m (6.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "previous_experiences" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", Sun, 10 Jul 2016 00:09:06 UTC +00:00], ["name", "Taken a group lesson previously."], ["updated_at", Sun, 10 Jul 2016 00:09:06 UTC +00:00]]
+  [1m[35m (6.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "previous_experiences" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Sun, 10 Jul 2016 00:09:06 UTC +00:00], ["name", "Taken a private lesson previously."], ["updated_at", Sun, 10 Jul 2016 00:09:06 UTC +00:00]]
+  [1m[36m (34.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "previous_experiences" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", Sun, 10 Jul 2016 00:09:06 UTC +00:00], ["name", "Skied (snowboarded) a total of 3 times or less."], ["updated_at", Sun, 10 Jul 2016 00:09:06 UTC +00:00]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "previous_experiences" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Sun, 10 Jul 2016 00:09:06 UTC +00:00], ["name", "Skied (snowboarded) between 4 and 10 times."], ["updated_at", Sun, 10 Jul 2016 00:09:06 UTC +00:00]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "previous_experiences" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", Sun, 10 Jul 2016 00:09:06 UTC +00:00], ["name", "Skied (snowboarded) more than 10 days."], ["updated_at", Sun, 10 Jul 2016 00:09:06 UTC +00:00]]
+  [1m[35m (0.3ms)[0m  COMMIT
+
+
+Started GET "/" for 127.0.0.1 at 2016-07-09 17:09:14 -0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by LessonsController#new as HTML
+  Rendered lessons/new.html.erb within layouts/application (249.7ms)
+Completed 200 OK in 1425ms (Views: 1382.3ms | ActiveRecord: 7.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-07-09 17:09:15 -0700
+Processing by LessonsController#new as HTML
+  Rendered lessons/new.html.erb within layouts/application (10.5ms)
+Completed 200 OK in 26ms (Views: 24.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/formtastic-bootstrap.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:15 -0700
+
+
+Started GET "/assets/jquery.ui.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:15 -0700
+
+
+Started GET "/assets/jquery.ui.core.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:15 -0700
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:15 -0700
+
+
+Started GET "/assets/jquery.timepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:15 -0700
+
+
+Started GET "/assets/bootstrap/font-awesome.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:15 -0700
+
+
+Started GET "/assets/beta_users.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/essentials.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/layout.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/magnific-popup.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/owl.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/owl.transitions.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/zzz-blue.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/zzz-custom.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/modernizr.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/jquery.turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/jquery.ui.core.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/jquery.timepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/cocoon.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/beta_users.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/jquery.appear.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/jquery.cycle.all.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/jquery.easing.1.3.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/jquery.isotope.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/jquery.knob.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/jquery.magnific-popup.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/jquery.maximage.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/jquery.nicescroll.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/bootstrap/scripts.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/lessons.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/spinner.gif" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/demo/slider/happy.jpg" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/demo/slider/thredbo1.jpg" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/jquery-ui/ui-bg_flat_75_ffffff_40x100.png" for 127.0.0.1 at 2016-07-09 17:09:16 -0700
+
+
+Started GET "/assets/jquery-ui/ui-bg_highlight-soft_75_cccccc_1x100.png" for 127.0.0.1 at 2016-07-09 17:09:27 -0700
+
+
+Started GET "/assets/jquery-ui/ui-icons_222222_256x240.png" for 127.0.0.1 at 2016-07-09 17:09:27 -0700
+
+
+Started GET "/assets/jquery-ui/ui-bg_glass_75_e6e6e6_1x400.png" for 127.0.0.1 at 2016-07-09 17:09:27 -0700
+
+
+Started GET "/assets/jquery-ui/ui-bg_glass_55_fbf9ee_1x400.png" for 127.0.0.1 at 2016-07-09 17:09:27 -0700
+
+
+Started GET "/assets/jquery-ui/ui-bg_glass_75_dadada_1x400.png" for 127.0.0.1 at 2016-07-09 17:09:27 -0700
+
+
+Started POST "/lessons" for 127.0.0.1 at 2016-07-09 17:09:29 -0700
+Processing by LessonsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"AON8NECpQbgKSAQqPdjtIenJvwPgAN8P2FXgckRoML8=", "lesson"=>{"activity"=>"Ski", "location"=>"Thredbo", "lesson_time"=>{"date"=>"2016-07-25", "slot"=>"Morning"}, "state"=>"new"}, "commit"=>"Book Lesson"}
+Redirected to http://localhost:3000/users/sign_in
+Filter chain halted as :save_lesson_params_and_redirect rendered or redirected
+Completed 302 Found in 2ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2016-07-09 17:09:29 -0700
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.erb (2.4ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (25.7ms)
+Completed 200 OK in 57ms (Views: 41.1ms | ActiveRecord: 2.2ms)
+
+
+Started GET "/assets/formtastic-bootstrap.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/jquery.timepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/jquery.ui.core.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/jquery.ui.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/beta_users.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/essentials.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/font-awesome.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/layout.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/magnific-popup.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/owl.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/zzz-blue.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/zzz-custom.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/owl.transitions.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/modernizr.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/jquery.turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/jquery.ui.core.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/jquery.timepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/cocoon.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/beta_users.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/jquery.cycle.all.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/jquery.appear.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/jquery.easing.1.3.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/jquery.isotope.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/jquery.knob.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/jquery.magnific-popup.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/jquery.maximage.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/jquery.nicescroll.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/lessons.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/bootstrap/scripts.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/demo/slider/chamonix-skiing.jpg" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+
+Started GET "/assets/demo/slider/ski-1.jpg" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+ActionController::RoutingError (No route matches [GET] "/assets/demo/slider/ski-1.jpg"):
+  actionpack (4.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.2) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.2) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.2) lib/rails/engine.rb:511:in `call'
+  railties (4.0.2) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.6ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_route.html.erb (4.2ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_table.html.erb (3.8ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (53.1ms)
+
+
+Started GET "/assets/demo/slider/ski-1.jpg" for 127.0.0.1 at 2016-07-09 17:09:30 -0700
+
+ActionController::RoutingError (No route matches [GET] "/assets/demo/slider/ski-1.jpg"):
+  actionpack (4.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.2) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.2) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.2) lib/rails/engine.rb:511:in `call'
+  railties (4.0.2) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.6ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_route.html.erb (3.6ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.5ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (35.2ms)
+
+
+Started GET "/users/auth/facebook" for 127.0.0.1 at 2016-07-09 17:09:33 -0700
+
+
+Started GET "/users/auth/facebook" for 127.0.0.1 at 2016-07-09 17:09:33 -0700
+
+
+Started GET "/users/auth/facebook/callback?code=AQDJSkeNYs28y1cAIFe955oe2qIKhwOyFWX9d0nW6mEYe3r-uZPqFc2Nzpt1hrHaUIl9YUYntVnkaXYuJONrLTp-WQ-P21KIpbfXnyxLXSqaxrPbxyqe0jA_0czGnGTBIz0i4cp0aGVqjBdRSUF6vTZGR-pT5S87YdiZ2Exx3rr80Yi-O9xZEF3tIxNtP_GpmXj0vhu76LNUh0J6o41tcT1EnHrbzXRg2JKr9zmjDXWXLr-1Pk2pVkiqazYHwSkiKzNEtN5O6haK1XjJkhK24MwoFoRh2k7CT3fJs7OnOcAei8AIsC9GsmoaPcWTCMjmzeT272Wx_FMBYFzGmzFhYP3N&state=2a372a60accce6cde639c893b7db701cb78c218cbbfaaa6a" for 127.0.0.1 at 2016-07-09 17:09:34 -0700
+Processing by Users::OmniauthCallbacksController#facebook as HTML
+  Parameters: {"code"=>"AQDJSkeNYs28y1cAIFe955oe2qIKhwOyFWX9d0nW6mEYe3r-uZPqFc2Nzpt1hrHaUIl9YUYntVnkaXYuJONrLTp-WQ-P21KIpbfXnyxLXSqaxrPbxyqe0jA_0czGnGTBIz0i4cp0aGVqjBdRSUF6vTZGR-pT5S87YdiZ2Exx3rr80Yi-O9xZEF3tIxNtP_GpmXj0vhu76LNUh0J6o41tcT1EnHrbzXRg2JKr9zmjDXWXLr-1Pk2pVkiqazYHwSkiKzNEtN5O6haK1XjJkhK24MwoFoRh2k7CT3fJs7OnOcAei8AIsC9GsmoaPcWTCMjmzeT272Wx_FMBYFzGmzFhYP3N", "state"=>"2a372a60accce6cde639c893b7db701cb78c218cbbfaaa6a"}
+  [1m[35mUser Load (23.9ms)[0m  SELECT "users".* FROM "users" WHERE "users"."provider" = 'facebook' AND "users"."uid" = '138520786569210' ORDER BY "users"."id" ASC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'brian@skischool.co' LIMIT 1
+  [1m[36mSQL (4.8ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "image", "instructor", "name", "provider", "uid", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["created_at", Sun, 10 Jul 2016 00:09:35 UTC +00:00], ["email", "brian@skischool.co"], ["encrypted_password", "$2a$10$gbSSRxc4PlCF9/TdTPoifu0IzgEx/pNUGrfNrXWceX/Z4QYbWtXCa"], ["image", "http://graph.facebook.com/138520786569210/picture?type=large"], ["instructor", false], ["name", "Brian Bensch"], ["provider", "facebook"], ["uid", "138520786569210"], ["updated_at", Sun, 10 Jul 2016 00:09:35 UTC +00:00]]
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."provider" = 'facebook' AND "users"."uid" = '138520786569210' ORDER BY "users"."id" DESC LIMIT 1
+  Rendered lesson_mailer/new_user_signed_up.html.erb (0.6ms)
+
+Sent mail to brian@snowschoolers.com (3726.3ms)
+Date: Sat, 09 Jul 2016 17:09:35 -0700
+From: brian@snowschoolers.com
+To: brian@snowschoolers.com
+Message-ID: <5781923f92dc8_13c9a3fdb05b01c1846985@dbc00.mail>
+Subject: A new user has signed up for Ski School
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Congrats!</h1>
+    <p>
+      A new user, brian@skischool.co has just registered their account.
+    </p>
+  </body>
+</html>
+
+  [1m[36m (0.9ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.7ms)[0m  [1mUPDATE "users" SET "last_sign_in_at" = $1, "current_sign_in_at" = $2, "last_sign_in_ip" = $3, "current_sign_in_ip" = $4, "sign_in_count" = $5, "updated_at" = $6 WHERE "users"."id" = 1[0m  [["last_sign_in_at", Sun, 10 Jul 2016 00:09:39 UTC +00:00], ["current_sign_in_at", Sun, 10 Jul 2016 00:09:39 UTC +00:00], ["last_sign_in_ip", "127.0.0.1"], ["current_sign_in_ip", "127.0.0.1"], ["sign_in_count", 1], ["updated_at", Sun, 10 Jul 2016 00:09:39 UTC +00:00]]
+  [1m[35m (0.3ms)[0m  COMMIT
+Redirected to http://localhost:3000/
+Completed 302 Found in 4183ms (ActiveRecord: 31.6ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+Processing by LessonsController#new as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" ASC LIMIT 1[0m
+Unpermitted parameters: lesson_time
+  [1m[35mLessonTime Load (7.7ms)[0m  SELECT "lesson_times".* FROM "lesson_times" WHERE "lesson_times"."date" = '2016-07-25' AND "lesson_times"."slot" = 'Morning' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.4ms)[0m  INSERT INTO "lesson_times" ("date", "slot") VALUES ($1, $2) RETURNING "id"  [["date", Mon, 25 Jul 2016], ["slot", "Morning"]]
+  [1m[36m (6.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (7.2ms)[0m  [1mSELECT COUNT(*) FROM "lessons" WHERE (lesson_time_id = 1 AND instructor_id is not null)[0m
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users" WHERE (instructor = true)
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  Rendered lessons/new.html.erb within layouts/application (10.4ms)
+Filter chain halted as :create_lesson_from_session rendered or redirected
+Completed 200 OK in 70ms (Views: 25.1ms | ActiveRecord: 25.3ms)
+
+
+Started GET "/assets/formtastic-bootstrap.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/jquery.ui.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/jquery.ui.core.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/jquery.timepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/beta_users.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/essentials.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/layout.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/font-awesome.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/magnific-popup.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/owl.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/zzz-blue.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/owl.transitions.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/zzz-custom.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/modernizr.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/jquery.turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/jquery.ui.core.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/jquery.timepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/cocoon.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/beta_users.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/jquery.appear.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/jquery.easing.1.3.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/jquery.cycle.all.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/jquery.isotope.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/jquery.knob.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/jquery.magnific-popup.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/jquery.maximage.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/jquery.nicescroll.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/bootstrap/scripts.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/lessons.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/demo/slider/thredbo1.jpg" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/assets/demo/slider/happy.jpg" for 127.0.0.1 at 2016-07-09 17:09:39 -0700
+
+
+Started GET "/users/edit" for 127.0.0.1 at 2016-07-09 17:09:41 -0700
+Processing by Users::RegistrationsController#edit as HTML
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" ASC LIMIT 1
+  Rendered devise/registrations/edit.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 21ms (Views: 18.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/assets/demo/slider/ski-1.jpg" for 127.0.0.1 at 2016-07-09 17:09:41 -0700
+
+ActionController::RoutingError (No route matches [GET] "/assets/demo/slider/ski-1.jpg"):
+  actionpack (4.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.2) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.2) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.2) lib/rails/engine.rb:511:in `call'
+  railties (4.0.2) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.7ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_route.html.erb (4.6ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.3ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (47.7ms)
+
+
+Started PUT "/users" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+Processing by Users::RegistrationsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"OxT7jfObRlNqFzzkERtoHl3Upzlz3C3pLAdhzEjYiZw=", "user"=>{"name"=>"Brian Instructor", "email"=>"brian+instructor@snowschoolers.com", "instructor"=>"1"}, "commit"=>"UPDATE"}
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" ASC LIMIT 1[0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT 1 AS one FROM "users" WHERE ("users"."email" = 'brian+instructor@snowschoolers.com' AND "users"."id" != 1) LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mUPDATE "users" SET "name" = $1, "email" = $2, "instructor" = $3, "updated_at" = $4 WHERE "users"."id" = 1[0m  [["name", "Brian Instructor"], ["email", "brian+instructor@snowschoolers.com"], ["instructor", true], ["updated_at", Sun, 10 Jul 2016 00:09:52 UTC +00:00]]
+  [1m[35m (5.4ms)[0m  COMMIT
+Redirected to http://localhost:3000/
+Completed 302 Found in 18ms (ActiveRecord: 7.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+Processing by LessonsController#new as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" ASC LIMIT 1[0m
+  Rendered lessons/new.html.erb within layouts/application (9.7ms)
+Completed 200 OK in 24ms (Views: 21.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/formtastic-bootstrap.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/jquery.ui.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/jquery.timepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/jquery.ui.core.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/beta_users.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/bootstrap/essentials.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/bootstrap/font-awesome.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/bootstrap/layout.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/bootstrap/magnific-popup.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/bootstrap/owl.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/bootstrap/owl.transitions.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/bootstrap/zzz-blue.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/bootstrap/zzz-custom.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/bootstrap/modernizr.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:52 -0700
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/jquery.turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/jquery.ui.core.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/jquery.timepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/cocoon.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/beta_users.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/bootstrap/jquery.appear.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/bootstrap/jquery.cycle.all.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/bootstrap/jquery.easing.1.3.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/bootstrap/jquery.isotope.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/bootstrap/jquery.knob.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/bootstrap/jquery.magnific-popup.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/bootstrap/jquery.maximage.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/bootstrap/jquery.nicescroll.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/bootstrap/scripts.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/lessons.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/demo/slider/thredbo1.jpg" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started GET "/assets/demo/slider/happy.jpg" for 127.0.0.1 at 2016-07-09 17:09:53 -0700
+
+
+Started POST "/lessons" for 127.0.0.1 at 2016-07-09 17:10:00 -0700
+Processing by LessonsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"OxT7jfObRlNqFzzkERtoHl3Upzlz3C3pLAdhzEjYiZw=", "lesson"=>{"activity"=>"Ski", "location"=>"Thredbo", "lesson_time"=>{"date"=>"2016-07-26", "slot"=>"Morning"}, "state"=>"new"}, "commit"=>"Book Lesson"}
+  [1m[35mUser Load (0.6ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" ASC LIMIT 1
+Unpermitted parameters: lesson_time
+  [1m[36mLessonTime Load (0.3ms)[0m  [1mSELECT "lesson_times".* FROM "lesson_times" WHERE "lesson_times"."date" = '2016-07-26' AND "lesson_times"."slot" = 'Morning' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "lesson_times" ("date", "slot") VALUES ($1, $2) RETURNING "id"[0m  [["date", Tue, 26 Jul 2016], ["slot", "Morning"]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "lessons" WHERE (lesson_time_id = 2 AND instructor_id is not null)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE (instructor = true)[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  Rendered lessons/new.html.erb within layouts/application (14.8ms)
+Completed 200 OK in 41ms (Views: 29.4ms | ActiveRecord: 2.5ms)
+
+
+Started GET "/assets/jquery.ui.datepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/jquery.timepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/jquery.ui.core.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/jquery.ui.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/formtastic-bootstrap.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/beta_users.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/essentials.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/font-awesome.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/magnific-popup.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/layout.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/owl.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/owl.transitions.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/zzz-blue.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/zzz-custom.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/modernizr.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/jquery.turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/jquery.ui.core.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/cocoon.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/jquery.timepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/beta_users.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/jquery.cycle.all.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/jquery.appear.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/jquery.easing.1.3.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/jquery.isotope.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/jquery.knob.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/jquery.magnific-popup.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/jquery.nicescroll.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/jquery.maximage.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/bootstrap/scripts.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/lessons.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/demo/slider/thredbo1.jpg" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/assets/demo/slider/happy.jpg" for 127.0.0.1 at 2016-07-09 17:10:01 -0700
+
+
+Started GET "/users/edit" for 127.0.0.1 at 2016-07-09 17:10:04 -0700
+Processing by Users::RegistrationsController#edit as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" ASC LIMIT 1[0m
+  Rendered devise/registrations/edit.html.erb within layouts/application (2.4ms)
+Completed 200 OK in 17ms (Views: 15.0ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/formtastic-bootstrap.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:04 -0700
+
+
+Started GET "/assets/jquery.ui.core.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/jquery.ui.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/jquery.timepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/beta_users.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/essentials.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/font-awesome.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/layout.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/magnific-popup.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/owl.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/owl.transitions.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/zzz-blue.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/zzz-custom.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/modernizr.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/jquery.turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/jquery.ui.core.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/jquery.timepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/cocoon.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/beta_users.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/jquery.appear.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/jquery.cycle.all.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/jquery.easing.1.3.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/jquery.isotope.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/jquery.knob.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/jquery.magnific-popup.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/jquery.maximage.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/jquery.nicescroll.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/bootstrap/scripts.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/lessons.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/demo/slider/chamonix-skiing.jpg" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+
+Started GET "/assets/demo/slider/ski-1.jpg" for 127.0.0.1 at 2016-07-09 17:10:05 -0700
+
+ActionController::RoutingError (No route matches [GET] "/assets/demo/slider/ski-1.jpg"):
+  actionpack (4.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.2) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.2) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.2) lib/rails/engine.rb:511:in `call'
+  railties (4.0.2) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.2ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_route.html.erb (5.1ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.3ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (38.0ms)
+
+
+Started GET "/users/sign_out" for 127.0.0.1 at 2016-07-09 17:10:08 -0700
+Processing by Devise::SessionsController#destroy as HTML
+  [1m[35mUser Load (0.6ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" ASC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  COMMIT
+Redirected to http://localhost:3000/
+Completed 302 Found in 12ms (ActiveRecord: 0.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-07-09 17:10:08 -0700
+Processing by LessonsController#new as HTML
+  Rendered lessons/new.html.erb within layouts/application (10.0ms)
+Completed 200 OK in 22ms (Views: 21.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/demo/slider/thredbo1.jpg" for 127.0.0.1 at 2016-07-09 17:10:08 -0700
+
+
+Started GET "/assets/demo/slider/happy.jpg" for 127.0.0.1 at 2016-07-09 17:10:08 -0700
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2016-07-09 17:10:12 -0700
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.erb (1.0ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (14.4ms)
+Completed 200 OK in 30ms (Views: 28.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/demo/slider/ski-1.jpg" for 127.0.0.1 at 2016-07-09 17:10:12 -0700
+
+ActionController::RoutingError (No route matches [GET] "/assets/demo/slider/ski-1.jpg"):
+  actionpack (4.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.2) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.2) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.2) lib/rails/engine.rb:511:in `call'
+  railties (4.0.2) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.8ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_route.html.erb (10.2ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.2ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (65.7ms)
+
+
+Started GET "/users/sign_up" for 127.0.0.1 at 2016-07-09 17:10:14 -0700
+Processing by Users::RegistrationsController#new as HTML
+  Rendered devise/registrations/new.html.erb within layouts/application (5.6ms)
+Completed 200 OK in 26ms (Views: 24.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/demo/slider/ski-1.jpg" for 127.0.0.1 at 2016-07-09 17:10:14 -0700
+
+ActionController::RoutingError (No route matches [GET] "/assets/demo/slider/ski-1.jpg"):
+  actionpack (4.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.2) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.2) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.2) lib/rails/engine.rb:511:in `call'
+  railties (4.0.2) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.0ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_route.html.erb (3.7ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_table.html.erb (2.0ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (34.9ms)
+
+
+Started GET "/assets/fontawesome-webfont.woff?v=4.0.3" for 127.0.0.1 at 2016-07-09 17:10:14 -0700
+
+
+Started GET "/" for 127.0.0.1 at 2016-07-09 17:10:21 -0700
+Processing by LessonsController#new as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" ASC LIMIT 1[0m
+  Rendered lessons/new.html.erb within layouts/application (6.4ms)
+Completed 200 OK in 19ms (Views: 17.5ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/jquery.ui.core.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/jquery.ui.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/formtastic-bootstrap.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/beta_users.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/jquery.timepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/essentials.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/font-awesome.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/layout.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/magnific-popup.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/owl.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/owl.transitions.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/zzz-blue.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/zzz-custom.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/modernizr.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/jquery.turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/jquery.ui.core.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/jquery.timepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/cocoon.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/beta_users.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/jquery.appear.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/jquery.cycle.all.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/jquery.easing.1.3.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/jquery.isotope.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/jquery.knob.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/jquery.magnific-popup.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/jquery.maximage.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/jquery.nicescroll.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/scripts.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/lessons.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/spinner.gif" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/demo/slider/thredbo1.jpg" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/demo/slider/happy.jpg" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/bootstrap/modernizr.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/fontawesome-webfont.woff?v=4.0.3" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started GET "/assets/jquery-ui/ui-bg_flat_75_ffffff_40x100.png" for 127.0.0.1 at 2016-07-09 17:10:22 -0700
+
+
+Started POST "/users" for 127.0.0.1 at 2016-07-09 17:10:25 -0700
+Processing by Users::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"U2JD9OFtY1miG2JunsKl+8i+6RuMELPTEz+vg/EwiDA=", "user"=>{"email"=>"brian+student@snowschoolers.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+Unpermitted parameters: password_confirmation
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'brian+student@snowschoolers.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Sun, 10 Jul 2016 00:10:25 UTC +00:00], ["email", "brian+student@snowschoolers.com"], ["encrypted_password", "$2a$10$UdTWufRHlPHsE0kl6hrcweqHb1mY3z8ocmCN4GfdZHHp5wJavj7Qi"], ["updated_at", Sun, 10 Jul 2016 00:10:25 UTC +00:00]]
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT 1[0m
+  Rendered lesson_mailer/new_user_signed_up.html.erb (0.1ms)
+
+Sent mail to brian@snowschoolers.com (2165.8ms)
+Date: Sat, 09 Jul 2016 17:10:25 -0700
+From: brian@snowschoolers.com
+To: brian@snowschoolers.com
+Message-ID: <57819271b5a30_13c9a3fdb05b01c1847048@dbc00.mail>
+Subject: A new user has signed up for Ski School
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Congrats!</h1>
+    <p>
+      A new user, brian+student@snowschoolers.com has just registered their account.
+    </p>
+  </body>
+</html>
+
+  [1m[35m (1.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  UPDATE "users" SET "last_sign_in_at" = $1, "current_sign_in_at" = $2, "last_sign_in_ip" = $3, "current_sign_in_ip" = $4, "sign_in_count" = $5, "updated_at" = $6 WHERE "users"."id" = 2  [["last_sign_in_at", Sun, 10 Jul 2016 00:10:27 UTC +00:00], ["current_sign_in_at", Sun, 10 Jul 2016 00:10:27 UTC +00:00], ["last_sign_in_ip", "127.0.0.1"], ["current_sign_in_ip", "127.0.0.1"], ["sign_in_count", 1], ["updated_at", Sun, 10 Jul 2016 00:10:27 UTC +00:00]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed 302 Found in 2261ms (ActiveRecord: 3.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2016-07-09 17:10:27 -0700
+Processing by LessonsController#new as HTML
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 2 ORDER BY "users"."id" ASC LIMIT 1
+  Rendered lessons/new.html.erb within layouts/application (7.5ms)
+Completed 200 OK in 20ms (Views: 18.6ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/formtastic-bootstrap.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:27 -0700
+
+
+Started GET "/assets/jquery.ui.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:27 -0700
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:27 -0700
+
+
+Started GET "/assets/beta_users.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/essentials.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/jquery.ui.core.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/jquery.timepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/font-awesome.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/layout.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/magnific-popup.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/zzz-custom.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/owl.transitions.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/zzz-blue.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/modernizr.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/owl.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/jquery.turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/cocoon.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/jquery.timepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/jquery.ui.core.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/jquery.cycle.all.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/jquery.appear.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/jquery.easing.1.3.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/beta_users.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/jquery.nicescroll.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/jquery.magnific-popup.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/jquery.knob.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/jquery.isotope.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/scripts.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/jquery.maximage.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/lessons.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/demo/slider/thredbo1.jpg" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started GET "/assets/demo/slider/happy.jpg" for 127.0.0.1 at 2016-07-09 17:10:28 -0700
+
+
+Started POST "/lessons" for 127.0.0.1 at 2016-07-09 17:10:34 -0700
+Processing by LessonsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"U2JD9OFtY1miG2JunsKl+8i+6RuMELPTEz+vg/EwiDA=", "lesson"=>{"activity"=>"Ski", "location"=>"Thredbo", "lesson_time"=>{"date"=>"2016-07-26", "slot"=>"Morning"}, "state"=>"new"}, "commit"=>"Book Lesson"}
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 2 ORDER BY "users"."id" ASC LIMIT 1[0m
+Unpermitted parameters: lesson_time
+  [1m[35mLessonTime Load (0.4ms)[0m  SELECT "lesson_times".* FROM "lesson_times" WHERE "lesson_times"."date" = '2016-07-26' AND "lesson_times"."slot" = 'Morning' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "lessons" WHERE (lesson_time_id = 2 AND instructor_id is not null)
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE (instructor = true)[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "lessons" ("activity", "created_at", "lesson_time_id", "location", "requester_id", "state", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"  [["activity", "Ski"], ["created_at", Sun, 10 Jul 2016 00:10:34 UTC +00:00], ["lesson_time_id", 2], ["location", "Thredbo"], ["requester_id", 2], ["state", "new"], ["updated_at", Sun, 10 Jul 2016 00:10:34 UTC +00:00]]
+  [1m[36m (0.5ms)[0m  [1mSELECT COUNT(*) FROM "lessons" WHERE (lesson_time_id = 2 AND instructor_id is not null)[0m
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE (instructor = true)
+  Rendered lesson_mailer/send_lesson_request_to_instructors.html.erb (1.2ms)
+
+Sent mail to notify@snowschoolers.com (1466.0ms)
+Date: Sat, 09 Jul 2016 17:10:34 -0700
+From: brian@snowschoolers.com
+To: notify@snowschoolers.com
+Message-ID: <5781927ab8b44_13c9a3fdb05b056b0471f6@dbc00.mail>
+Subject: New Snow Schoolers lesson request
+Mime-Version: 1.0
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>New Lesson Request</h1>
+    <ul>
+      <li>Requester: </li>
+      <li>Date: 2016-07-26</li>
+      <li>Slot: Morning</li>
+      <li>Location: Thredbo</li>
+    </ul>
+    <p>
+      To take the lesson, go to the lesson page below
+      and click the 'Take It' button before another
+      instructor beats you to it!
+    </p>
+    <p>
+      http://www.snowschoolers.com/lessons/1
+    </p>
+  </body>
+</html>
+  [1m[36m (1.0ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/lessons/1/complete
+Completed 302 Found in 1491ms (ActiveRecord: 3.8ms)
+
+
+Started GET "/lessons/1/complete" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+Processing by LessonsController#complete as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 2 ORDER BY "users"."id" ASC LIMIT 1
+  [1m[36mLesson Load (0.4ms)[0m  [1mSELECT "lessons".* FROM "lessons" WHERE "lessons"."id" = $1 LIMIT 1[0m  [["id", "1"]]
+  [1m[35mLessonTime Load (0.4ms)[0m  SELECT "lesson_times".* FROM "lesson_times" WHERE "lesson_times"."id" = $1 ORDER BY "lesson_times"."id" ASC LIMIT 1  [["id", 2]]
+  [1m[36mStudent Load (2.1ms)[0m  [1mSELECT "students".* FROM "students" WHERE "students"."lesson_id" = $1[0m  [["lesson_id", 1]]
+  Rendered lessons/_student_fields.html.erb (7.6ms)
+  [1m[35mPreviousExperience Load (0.4ms)[0m  SELECT "previous_experiences".* FROM "previous_experiences"
+  [1m[36mPreviousExperience Load (0.6ms)[0m  [1mSELECT "previous_experiences".* FROM "previous_experiences" INNER JOIN "lessons_previous_experiences" ON "previous_experiences"."id" = "lessons_previous_experiences"."previous_experience_id" WHERE "lessons_previous_experiences"."lesson_id" = $1[0m  [["lesson_id", 1]]
+  Rendered lessons/_full_form.html.erb (68.9ms)
+  Rendered lessons/complete.html.erb within layouts/application (70.2ms)
+Completed 200 OK in 90ms (Views: 74.7ms | ActiveRecord: 7.4ms)
+
+
+Started GET "/assets/formtastic-bootstrap.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/jquery.ui.core.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/jquery.timepicker.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/jquery.ui.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/essentials.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/beta_users.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/font-awesome.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/layout.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/magnific-popup.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/owl.theme.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/owl.transitions.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/zzz-blue.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/zzz-custom.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/modernizr.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/jquery.turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/jquery.ui.core.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/jquery.ui.datepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/jquery.timepicker.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/cocoon.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/beta_users.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/bootstrap.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/jquery.appear.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/jquery.easing.1.3.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/jquery.cycle.all.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/jquery.isotope.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/jquery.knob.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/jquery.nicescroll.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/jquery.magnific-popup.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/jquery.maximage.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/owl.carousel.min.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/lessons.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/bootstrap/scripts.js?body=1" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/demo/slider/powdery-mountain.jpg" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+
+Started GET "/assets/demo/slider/ski-1.jpg" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+ActionController::RoutingError (No route matches [GET] "/assets/demo/slider/ski-1.jpg"):
+  actionpack (4.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.2) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.2) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.2) lib/rails/engine.rb:511:in `call'
+  railties (4.0.2) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.4ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_route.html.erb (4.2ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.3ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (36.2ms)
+
+
+Started GET "/assets/demo/slider/ski-1.jpg" for 127.0.0.1 at 2016-07-09 17:10:36 -0700
+
+ActionController::RoutingError (No route matches [GET] "/assets/demo/slider/ski-1.jpg"):
+  actionpack (4.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.2) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.2) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.2) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.2) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.2) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.2) lib/rails/engine.rb:511:in `call'
+  railties (4.0.2) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.1ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_route.html.erb (2.6ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/routes/_table.html.erb (0.8ms)
+  Rendered /Users/apprentice/.rbenv/versions/2.1.0/lib/ruby/gems/2.1.0/gems/actionpack-4.0.2/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (47.8ms)
