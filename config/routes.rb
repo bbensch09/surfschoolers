@@ -1,4 +1,6 @@
 SnowSchoolers::Application.routes.draw do
+  resources :instructors
+
   resources :beta_users
 
   root to: "lessons#new"

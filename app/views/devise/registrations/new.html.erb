@@ -2,16 +2,14 @@
   <div class="white">
 
     <header class="page-header">
-      <h1>Sign Up</h1>
+      <h3>Get <strong>Started</strong> </h3>
     </header>
 
       <div class="row">
 
         <!-- REGISTER -->
         <div class="col-md-6">
-
-          <h4>Create <strong>Account</strong></h4>
-
+<!--
           <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
             <%= devise_error_messages! %>
 
@@ -44,12 +42,12 @@
                 <%= f.submit "Sign up", class: "btn sign-up-btn pull-right push-bottom" %>
               </div>
             </div>
-          <% end %>
+          <% end %> -->
 
           <div class="facebook-box">
             <div class="row title">
               <div class="col-md-12">
-                <div class="text">Sign up with:</div>
+                <div class="text">Create your account by signing up with Facebook</div>
               </div>
             </div>
 
@@ -57,7 +55,7 @@
               <div class="col-md-4"></div>
               <div class="col-md-4">
                 <%- resource_class.omniauth_providers.each do |provider| %>
-                  <%= link_to "#{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), class: "#{provider.to_s}-login form-control" %><br />
+                  <%= link_to "Login or Register", omniauth_authorize_path(resource_name, provider), class: "#{provider.to_s}-login form-control" %><br />
                 <% end -%>
               </div>
               <div class="col-md-4"></div>
@@ -75,8 +73,8 @@
           <p>Once you're registered, you can:</p>
           <ul class="list-icon check">
             <li>Book ski or snowboarding lessons.</li>
+            <li>Apply to become an instructor.</li>
             <li>Keep track of your lesson history and performance.</li>
-            <li>Watch video summaries of your past lessons.</li>
             <li>View your Snow Schoolers information from any computer in the world.</li>
             <li>Connect with the Snow Schoolers community.</li>
           </ul>
@@ -102,7 +100,7 @@
           </p>
         </div><!-- /left text -->
 
-        
+
         <div class="col-md-3 col-sm-4 text-right"><!-- right btn -->
           <a href="#" class="btn btn-primary btn-lg">CONTACT</a>
         </div><!-- /right btn -->

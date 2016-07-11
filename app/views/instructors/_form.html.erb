@@ -1,0 +1,61 @@
+<!--
+<%= semantic_form_for @instructor do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
+    <%= f.input :certification %>
+    <%= f.input :phone_number %>
+    <%= f.input :sport %>
+    <%= f.input :bio %>
+    <%= f.input :intro %>
+    <%= f.input :status %>
+  <% end %>
+
+  <%= f.actions do %>
+    <%= f.action :submit, :as => :input %>
+  <% end %>
+<% end %>
+ -->
+
+  <!-- REGISTER -->
+        <div class="col-md-6">
+           <div>
+          <%= form_for @instructor do |f| %>
+
+            <div class="field">
+              <%= f.text_field :first_name, placeholder: 'First name', class: 'form-control' %>
+            </div>
+            <div class="field">
+              <%= f.text_field :last_name, placeholder: 'Last name', class: 'form-control' %>
+            </div>
+            <div class="field">
+              <%= f.text_field :username, placeholder: 'Visible username', class: 'form-control' %>
+            </div>
+            <div class="field">
+              <%= f.text_field :phone_number, placeholder: 'Phone number', class: 'form-control' %>
+            </div>
+            <div class="field">
+              <%= f.label "Instructor Type" %><br />
+              <%= f.select :sport, ['Ski Instructor', 'Snowboard Instructor'], class: 'form-control' %>
+            </div>
+            <div class="field">
+              <%= f.label "Preferred Resort" %><br />
+              <%= f.select :preferred_resorts, ['Thredbo', 'Perisher', 'Mt. Buller', 'Mt. Hotham', 'Falls Creek'], class: 'form-control' %>
+            </div>
+            <div class="field">
+              <%= f.text_field :certification, placeholder: 'Do you hold any certifications?', class: 'form-control' %>
+            </div>
+            <div class="field">
+              <%= f.text_area :intro, rows:5, placeholder: 'Describe your background in 2-3 sentences', class: 'form-control' %>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <%= f.submit "Apply", class: "btn sign-up-btn pull-right push-bottom" %>
+              </div>
+            </div>
+          <% end %>
+          </div>
+
+
+        </div>
+        <!-- /REGISTER -->
