@@ -49,7 +49,7 @@ var LESSON = {
   },
 
   setTimepickers: function() {
-    LESSON._startTime.timepicker({ 'step': 15 });
+    LESSON._startTime.timepicker({ 'step': 30 });
     LESSON.configureRequesterTimepicker();
     LESSON.configureConfirmTimepickers();
   },

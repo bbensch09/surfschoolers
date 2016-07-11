@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20160706062545) do
   create_table "lessons", force: true do |t|
     t.integer  "requester_id"
     t.integer  "instructor_id"
+    t.string   "ability_level"
     t.integer  "lesson_time_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -44,19 +45,7 @@ ActiveRecord::Schema.define(version: 20160706062545) do
     t.string   "actual_start_time"
     t.string   "actual_end_time"
     t.float    "actual_duration"
-    t.integer  "experience_level"
     t.boolean  "terms_accepted"
-  end
-
-  create_table "lessons_previous_experiences", id: false, force: true do |t|
-    t.integer "lesson_id",              null: false
-    t.integer "previous_experience_id", null: false
-  end
-
-  create_table "previous_experiences", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "students", force: true do |t|
@@ -64,6 +53,8 @@ ActiveRecord::Schema.define(version: 20160706062545) do
     t.string  "name"
     t.string  "age_range"
     t.string  "gender"
+    t.string  "lesson_history"
+    t.string  "experience"
     t.string  "relationship_to_requester"
   end
 

@@ -1,9 +1,9 @@
 class LessonsController < ApplicationController
   respond_to :html
 
-  skip_before_filter :authenticate_user!, only: [:new, :create]
-  before_filter :save_lesson_params_and_redirect, only: :create
-  before_filter :create_lesson_from_session
+  skip_before_action :authenticate_user!, only: [:new, :create]
+  before_action :save_lesson_params_and_redirect, only: :create
+  before_action :create_lesson_from_session
 
   def index
     @lessons = Lesson.all
@@ -35,7 +35,6 @@ class LessonsController < ApplicationController
     @lesson = Lesson.find(params[:id])
     @original_lesson = @lesson.dup
     @lesson.assign_attributes(lesson_params)
-    @lesson.previous_experiences = format_previous_experiences
     @lesson.lesson_time = @lesson_time = LessonTime.find_or_create_by(lesson_time_params)
     @lesson.save ? send_lesson_update_notice_to_instructor : determine_update_state
     respond_with @lesson
@@ -136,10 +135,10 @@ class LessonsController < ApplicationController
     end
   end
 
-  def format_previous_experiences
-    previous_experience_ids = params[:lesson][:previous_experience_ids].reject(&:blank?)
-    previous_experience_ids.map { |id| PreviousExperience.find(id) }
-  end
+  # def format_previous_experiences
+  #   previous_experience_ids = params[:lesson][:previous_experience_ids].reject(&:blank?)
+  #   previous_experience_ids.map { |id| PreviousExperience.find(id) }
+  # end
 
   def determine_update_state
     @lesson.state = 'new' unless params[:lesson][:terms_accepted] == '1'
@@ -150,9 +149,9 @@ class LessonsController < ApplicationController
   end
 
   def lesson_params
-    params.require(:lesson).permit(:activity, :location, :state, :student_count, :gear, :objectives, :duration,
-      :start_time, :actual_start_time, :actual_end_time, :experience_level, :terms_accepted,
-      students_attributes: [:id, :name, :age_range, :gender, :relationship_to_requester, :_destroy])
+    params.require(:lesson).permit(:activity, :location, :state, :student_count, :gear, :objectives, :duration, :ability_level,
+      :start_time, :actual_start_time, :actual_end_time, :terms_accepted,
+      students_attributes: [:id, :name, :age_range, :gender, :relationship_to_requester, :lesson_history, :experience, :_destroy])
   end
 
   def lesson_time_params

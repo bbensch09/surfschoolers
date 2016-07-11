@@ -13,7 +13,7 @@
 <div class='row'>
   <div class="col-md-6">
     <h4>Basic <strong>Info</strong></h4>
-    
+
     <div class='row'>
       <div class="col-md-6">
         <label>Lesson Type:</label>
@@ -49,10 +49,10 @@
         <div class='form-control'><%= @lesson.start_time %></div>
       </div>
 
-      <div class="col-md-4">
+<!--       <div class="col-md-4">
         <label>Do you have gear?</label>
-        <div class='form-control'><%= @lesson.gear? ? 'Yes' : 'No' %></div>
-      </div>
+        <div class='form-control'><%= @lesson.gear? ? 'Yes, already have gear' : 'No, need gear.' %></div>
+      </div> -->
     </div>
   </div>
 
@@ -60,18 +60,46 @@
     <h4>Objectives <strong> and Experience</strong></h4>
 
     <div class='col-md-12'>
+      <label>Skill Level:</label>
+      <div class='form-control'><%= @lesson.ability_level %></div>
+    </div>
+
+    <div class='col-md-12'>
       <label>Objectives:</label>
       <div class='form-control'><%= @lesson.objectives %></div>
     </div>
-
-    <div class='col-md-12'>
-      <label>Experience Level:</label>
-      <div class='form-control'><%= @lesson.experience_level.to_s %></div>
-    </div>
-
-    <div class='col-md-12'>
-      <label>Previous Experience:</label>
-      <div class='form-control'><%= @lesson.previous_experiences.map(&:name).join(', ') %></div>
-    </div>
   </div>
+
+  <div class='col-md-12 student-box'>
+      <h4>Student <strong>Info</strong></h4>
+  <% @lesson.students.each do |student| %>
+    <div class='row'>
+      <div class='col-md-12'>
+        <label>Name</label>
+        <%= student.name %>
+      </div>
+      <div class='col-md-12'>
+        <label>Age Range</label>
+        <%= student.age_range %>
+      </div>
+      <div class='col-md-12'>
+        <label>Gender</label>
+        <%= student.gender %>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col-md-12'>
+        <label>About the student</label>
+        <%= student.relationship_to_requester %>
+      </div>
+      <div class='col-md-12'>
+            <label>Previous Experience </label>
+            <%= student.experience.to_s %>
+          </div>
+    </div>
+    <hr>
+  <% end %>
+</div>
+
+
 </div>
