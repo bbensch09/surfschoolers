@@ -84,7 +84,7 @@ class LessonsController < ApplicationController
     unless current_user
       flash[:alert] = 'You need to sign in or sign up before continuing.'
       session[:lesson] = params[:lesson]
-      redirect_to new_user_session_path and return
+      redirect_to new_user_registration_path and return
     end
   end
 
