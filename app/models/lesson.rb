@@ -77,7 +77,15 @@ class Lesson < ActiveRecord::Base
 
   def self.booked_instructors(lesson_time)
     booked_lessons = lesson_time.slot == 'Full Day' ? self.find_all_booked_lessons_in_day(lesson_time) : self.find_booked_lessons(lesson_time)
-    booked_lessons.any? ? booked_lessons.map { |lesson| User.find(lesson.instructor_id) } : []
+    booked_lessons.any? ? booked_lessons[0...-1].map { |lesson| User.find(lesson.instructor_id) } : []
+    # HACKY CODE
+    # puts "!!!!!!!!! booked lessons value is: #{booked_lessons}"
+    # puts "# of booked lessons is: #{booked_lessons.count}"
+    # booked_instructors = []
+    # booked_lessons[0...-1].each do |lesson|
+    #   booked_instructors << User.find(lesson.instructor_id)
+    # end
+    # return booked_instructors
   end
 
   def self.find_booked_lessons(lesson_time)

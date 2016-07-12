@@ -54,6 +54,9 @@ gem 'formtastic-bootstrap'
 gem 'omniauth-facebook'
 gem 'cocoon', '>= 1.2.0'
 
+gem 'faker'
+gem 'hirb'
+
 # Heroku
 group :production do
   gem 'rails_12factor'

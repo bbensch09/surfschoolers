@@ -58,17 +58,15 @@ class LessonsController < ApplicationController
     @lesson = Lesson.find(params[:id])
     @lesson.instructor = current_user
     @lesson.update(state: 'confirmed')
-    if @lesson.state =='booked'
-      LessonMailer.send_lesson_confirmation(@lesson).deliver
-    end
+    LessonMailer.send_lesson_confirmation(@lesson).deliver
     redirect_to @lesson
   end
 
   def remove_instructor
     @lesson = Lesson.find(params[:id])
+    send_instructor_cancellation_emails
     @lesson.instructor = nil
     @lesson.update(state: @lesson.available_instructors? ? 'new' : 'pending requester')
-    send_instructor_cancellation_emails
     redirect_to @lesson
   end
 
@@ -110,8 +108,9 @@ class LessonsController < ApplicationController
   end
 
   def send_instructor_cancellation_emails
-    LessonMailer.send_lesson_request_to_instructors(@lesson, @lesson.instructor).deliver if @lesson.available_instructors?
+    LessonMailer.send_lesson_request_to_new_instructors(@lesson, @lesson.instructor).deliver if @lesson.available_instructors?
     LessonMailer.inform_requester_of_instructor_cancellation(@lesson, @lesson.available_instructors?).deliver
+    LessonMailer.send_cancellation_confirmation(@lesson).deliver
   end
 
   def send_lesson_update_notice_to_instructor
@@ -144,10 +143,10 @@ class LessonsController < ApplicationController
   def determine_update_state
     @lesson.state = 'new' unless params[:lesson][:terms_accepted] == '1'
     if @lesson.deposit_status == 'confirmed'
-      flash[:alert] = "Lesson successfully created or updated."
+      flash[:alert] = "Lesson deposit has been recorded."
       @lesson.state = 'booked'
-      @lesson.save
     end
+      @lesson.save
     @state = params[:lesson][:state]
   end
 
