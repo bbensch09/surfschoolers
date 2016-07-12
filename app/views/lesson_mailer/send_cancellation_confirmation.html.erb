@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Confirmation of Lesson Cancellation</h1>
+    <p>
+      You have unfortunately canceled the lesson below. Other instructors have been notified, but you are likewise encouraged to email the instructor alias to try and find someone to cover your absence. Please help us keep our clients satisfied.
+    </p>
+    <ul>
+      <li>Students: <%= @lesson.students.map(&:name).join(', ') %></li>
+      <li>Date: <%= @lesson.date %></li>
+      <li>Slot: <%= @lesson.slot %></li>
+      <li>Location: <%= @lesson.location %></li>
+    </ul>
+    <p>
+      <% if @available_instructors %>
+        The good news is that there are other instructors theoretically available at this time.
+      <% else %>
+      <% end %>
+    </p>
+    <p>
+      <%= lesson_url(@lesson) %>
+    </p>
+  </body>
+</html>
