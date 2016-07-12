@@ -33,10 +33,14 @@
             <div class="col-md-12">
             <span class="remember-box checkbox">
               <label for="rememberme">
-                <%= f.check_box :instructor %>I'm an instructor
+                <%= f.check_box :verified_instructor %> Verified Instructor
               </label>
             </span>
           </div>
+          <% elsif @user.verified_instructor %>
+          <span>You are a verified instructor.</span>
+          <% else %>
+<!--           <span>You have profile is active.</span> -->
           <% end %>
         </div>
 

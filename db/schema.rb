@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20160711201823) do
 
   create_table "users", force: true do |t|
     t.string   "name"
-    t.boolean  "instructor"
+    t.boolean  "verified_instructor"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email",                  default: "", null: false

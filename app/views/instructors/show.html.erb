@@ -5,6 +5,10 @@
   <%= @instructor.user_id %>
 </p>
 <p>
+  <strong>User Email:</strong>
+  <%= @instructor.user.email %>
+</p>
+<p>
   <strong>First name:</strong>
   <%= @instructor.first_name %>
 </p>
@@ -45,4 +49,5 @@
 </p>
 
 <%= link_to 'Edit', edit_instructor_path(@instructor) %> |
+<%= link_to 'Verify Instructor', edit_user_registration_path(@instructor.user), class: 'btn btn-success' %> |
 <%= link_to 'Back', instructors_path %>

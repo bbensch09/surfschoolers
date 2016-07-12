@@ -2,7 +2,7 @@ a:hover {
   color: #84c5e7 !important;
 }
 
-.logo {
+.logo, .logo:visited {
   color: #fff;
   font-size: 25px;
   margin-top: 17px;

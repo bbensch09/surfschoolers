@@ -1,5 +1,6 @@
 class InstructorsController < ApplicationController
   before_action :set_instructor, only: [:show, :edit, :update, :destroy]
+  before_action :confirm_admin_permissions, except: [:create, :new]
 
   # GET /instructors
   # GET /instructors.json
@@ -14,7 +15,12 @@ class InstructorsController < ApplicationController
 
   # GET /instructors/new
   def new
-    @instructor = Instructor.new
+    if current_user.instructor
+      @instructor = current_user.instructor
+      render 'edit'
+      else
+      @instructor = Instructor.new
+    end
   end
 
   # GET /instructors/1/edit
@@ -30,7 +36,7 @@ class InstructorsController < ApplicationController
 
     respond_to do |format|
       if @instructor.save
-        format.html { redirect_to @instructor, notice: 'Instructor was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Your instructor application was successfully submitted, you will be contacted shortly. You may also reach out with questions to info@snowschoolers.com' }
         format.json { render action: 'show', status: :created, location: @instructor }
       else
         format.html { render action: 'new' }
@@ -44,7 +50,7 @@ class InstructorsController < ApplicationController
   def update
     respond_to do |format|
       if @instructor.update(instructor_params)
-        format.html { redirect_to @instructor, notice: 'Your instructor application was successfully updated.' }
+        format.html { redirect_to root_path, notice: 'Your instructor application was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -64,6 +70,11 @@ class InstructorsController < ApplicationController
   end
 
   private
+    def confirm_admin_permissions
+      return if current_user.email == 'brian@skischool.co'
+      redirect_to root_path, notice: 'You do not have permission to view that page.'
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_instructor
       @instructor = Instructor.find(params[:id])
