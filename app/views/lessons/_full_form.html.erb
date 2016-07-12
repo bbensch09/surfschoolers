@@ -88,6 +88,7 @@
       <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-6">
+          <hr>
           <div class="col-md-9">
             <span class="remember-box checkbox pull-right">
               <label for="rememberme">
@@ -99,10 +100,29 @@
               </label>
             </span>
           </div>
+          <% if @lesson.deposit_status == 'confirmed' %>
           <div class="col-md-3">
             <%= f.input :state, as: :hidden, input_html: { value: @state } %>
-            <%= f.submit "UPDATE", class: 'btn sign-up-btn pull-right' %>
+            <%= f.submit "Update", class: 'btn sign-up-btn pull-right' %>
           </div>
+          <% else %>
+        <div class="col-md-12">
+          <span class="pull-right"> A $50 deposit is required to secure your reservation.
+            <form action="" method="POST">
+              <script
+                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                data-key="pk_test_V3HBGGiV9ZzWXD8SRsTytwtD"
+                data-amount="5000"
+                data-name="Snow Schoolers"
+                data-description="Refundable deposit - first hour"
+                data-image="/img/documentation/checkout/marketplace.png"
+                data-locale="auto"
+                data-zip-code="true">
+              </script>
+            </form>
+            </span>
+          </div>
+          <% end %>
         </div>
       </div>
     <% end %>

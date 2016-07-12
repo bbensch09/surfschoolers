@@ -33,13 +33,13 @@
     <div class="navbar-collapse nav-main-collapse collapse pull-right">
       <nav class="nav-main">
         <ul class="nav nav-pills nav-main scroll-menu" id="topMain">
-            <li>
-              <%= link_to 'Subscribe for Updates', "/beta_users/new", class: 'sign-up-btn' %>
-            </li>
           <% if current_user %>
             <% name = current_user.name.present? ? current_user.name : 'Profile' %>
             <li>
               <%= link_to name, edit_user_registration_path %>
+            </li>
+            <li>
+              <%= link_to 'Become an Instructor', new_instructor_path, class: 'sign-up-btn' %>
             </li>
             <li>
               <%= link_to 'Logout', destroy_user_session_path %>
@@ -58,6 +58,9 @@
               </li>
               <li>
                 <%= link_to 'Sign Up', new_user_registration_path, class: 'sign-up-btn' %>
+              </li>
+              <li>
+                <%= link_to 'Subscribe to updates', "/beta_users/new", class: 'btn btn-default' %>
               </li>
             <% end %>
           <% end %>

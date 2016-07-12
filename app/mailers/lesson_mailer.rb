@@ -8,7 +8,11 @@ class LessonMailer < ActionMailer::Base
 
   def send_lesson_request_to_instructors(lesson, excluded_instructor=nil)
     @lesson = lesson
-    @available_instructors = (lesson.available_instructors - [excluded_instructor]).map(&:email)
+    available_instructors = (lesson.available_instructors - [excluded_instructor])
+    @available_instructors = []
+    available_instructors.each do |instructor|
+      @available_instructors << instructor.email
+    end
     mail(to: 'notify@snowschoolers.com', bcc: @available_instructors, subject: 'New Snow Schoolers lesson request')
   end
 

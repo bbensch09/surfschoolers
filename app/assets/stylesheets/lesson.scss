@@ -1,0 +1,24 @@
+.medium-text p{
+  font-size: 1.5em;
+}
+.form-control:visited{
+  color:white;
+  }
+.spacer{
+  min-height:50px;
+  clear:both;
+}
+.instructors-table{
+  padding: 5 5 5 5px;
+  border: 1px solid gray;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.instructors-table tbody tr td, .instructors-table thead tr th {
+    padding-left: 20px;
+}
+.instructors-table thead {
+  font-size: 1.3em;
+  border: 1px solid gray;
+  background-color: rgba(0,60,128,0.3);
+}

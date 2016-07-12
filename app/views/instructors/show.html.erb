@@ -1,0 +1,53 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User ID:</strong>
+  <%= @instructor.user_id %>
+</p>
+<p>
+  <strong>User Email:</strong>
+  <%= @instructor.user.email %>
+</p>
+<p>
+  <strong>First name:</strong>
+  <%= @instructor.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @instructor.last_name %>
+</p>
+
+<p>
+  <strong>Certification:</strong>
+  <%= @instructor.certification %>
+</p>
+
+<p>
+  <strong>Phone number:</strong>
+  <%= @instructor.phone_number %>
+</p>
+
+<p>
+  <strong>Sport:</strong>
+  <%= @instructor.sport %>
+</p>
+
+<p>
+  <strong>Resort:</strong>
+  <%= @instructor.preferred_resorts %>
+</p>
+
+<p>
+  <strong>Intro:</strong>
+  <%= @instructor.intro %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @instructor.status %>
+</p>
+
+<%= link_to 'Edit', edit_instructor_path(@instructor) %> |
+<%= link_to 'Verify Instructor', edit_user_registration_path(@instructor.user), class: 'btn btn-success' %> |
+<%= link_to 'Back', instructors_path %>

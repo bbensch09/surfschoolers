@@ -8,7 +8,7 @@
     <!-- UPDATE PROFILE -->
     <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
       <%= devise_error_messages! %>
-      
+
       <div class="row">
         <div class="col-md-6">
           <h4>Basic <strong>Info</strong></h4>
@@ -29,17 +29,39 @@
               </div>
             </div>
           </div>
-          <div class="col-md-12">
+          <% if current_user && current_user.email == 'brian@skischool.co' %>
+            <div class="col-md-12">
             <span class="remember-box checkbox">
               <label for="rememberme">
-                <%= f.check_box :instructor %>I'm an instructor
+                <%= f.check_box :verified_instructor %> Verified Instructor
               </label>
             </span>
           </div>
+          <% elsif @user.verified_instructor %>
+          <span>You are a verified instructor.</span>
+          <% else %>
+<!--           <span>You have profile is active.</span> -->
+          <% end %>
         </div>
 
+
         <div class="col-md-6">
-          <% if f.object.password_required? %> 
+          <div class="facebook-box">
+            <div class="row title">
+              <div class="col-md-12">
+                <div class="text">Interested in teaching? Apply to become an instructor:</div>
+              </div>
+            </div>
+
+            <div class="row button">
+              <div class="col-md-3"></div>
+              <div class="col-md-6">
+                  <%= link_to "Become an Instructor", new_instructor_path, class: "btn sign-up-btn form-control" %><br />
+              </div>
+              <div class="col-md-3"></div>
+            </div>
+        </div>
+          <% if f.object.password_required? %>
             <h4>Security <strong>Info</strong></h4>
 
             <div class="row">
@@ -58,7 +80,7 @@
         </div>
       </div>
 
-      <% if f.object.password_required? %> 
+      <% if f.object.password_required? %>
         <div class='row'>
           <div class="col-md-6"></div>
           <div class="col-md-6">
@@ -88,7 +110,7 @@
     <hr />
 
     <!-- CALLOUT -->
-    <div class="alert alert-default fade in">
+    <div class=" alert-default fade in">
 
       <div class="row">
 
@@ -99,9 +121,9 @@
           </p>
         </div><!-- /left text -->
 
-        
+
         <div class="col-md-3 col-sm-4 text-right"><!-- right btn -->
-          <%= link_to "CANCEL ACCOUNT", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, class: "btn btn-primary btn-lg" %>
+          <%= link_to "CANCEL ACCOUNT", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, class: "btn btn-warning" %>
         </div><!-- /right btn -->
 
       </div>
