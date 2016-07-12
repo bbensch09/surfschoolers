@@ -56,19 +56,19 @@ class Lesson < ActiveRecord::Base
     state == 'waiting for payment'
   end
 
-  def available_instructors
-    User.instructors - Lesson.booked_instructors(lesson_time)
-  end
-
-  def available_instructors?
-    available_instructors.any?
-  end
-
   def get_changed_attributes(original_lesson)
     lesson_changes = self.previous_changes
     lesson_time_changes = self.lesson_time.attributes.diff(original_lesson.lesson_time.attributes)
     changed_attributes = lesson_changes.merge(lesson_time_changes)
     changed_attributes.reject { |attribute, change| ['updated_at', 'id', 'state', 'lesson_time_id'].include?(attribute) }
+  end
+
+  def available_instructors
+    User.where("verified_instructor = true") - Lesson.booked_instructors(lesson_time)
+  end
+
+  def available_instructors?
+    available_instructors.any?
   end
 
   def self.find_lesson_times_by_requester(user)
@@ -96,11 +96,11 @@ class Lesson < ActiveRecord::Base
   private
 
   def instructors_must_be_available
-    errors.add(:instructor, "not available") unless available_instructors.any?
+    errors.add(:instructor, " not available at that time. Email info@snowschoolers.com to be notified if there are cancellations.") unless available_instructors.any?
   end
 
   def requester_must_not_be_instructor
-    errors.add(:instructor, "cannot request a lesson") if self.requester.instructor?
+    errors.add(:instructor, "cannot request a lesson") if self.requester.verified_instructor?
   end
 
   def lesson_time_must_be_valid

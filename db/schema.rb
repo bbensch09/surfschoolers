@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20160711201823) do
     t.integer  "requester_id"
     t.integer  "instructor_id"
     t.string   "ability_level"
+    t.string   "deposit_status"
     t.integer  "lesson_time_id"
     t.datetime "created_at"
     t.datetime "updated_at"

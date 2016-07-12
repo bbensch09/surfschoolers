@@ -36,6 +36,7 @@ class LessonsController < ApplicationController
     @original_lesson = @lesson.dup
     @lesson.assign_attributes(lesson_params)
     @lesson.lesson_time = @lesson_time = LessonTime.find_or_create_by(lesson_time_params)
+    @lesson.deposit_status = 'confirmed'
     @lesson.save ? send_lesson_update_notice_to_instructor : determine_update_state
     respond_with @lesson
   end
@@ -129,7 +130,7 @@ class LessonsController < ApplicationController
   end
 
   def check_user_permissions
-    unless current_user && (current_user == @lesson.requester || current_user.instructor?)
+    unless current_user && (current_user == @lesson.requester || current_user.verified_instructor?)
       flash[:alert] = "You do not have access to this page."
       redirect_to root_path
     end
@@ -142,15 +143,17 @@ class LessonsController < ApplicationController
 
   def determine_update_state
     @lesson.state = 'new' unless params[:lesson][:terms_accepted] == '1'
-    if @lesson.state == 'new'
-      flash[:alert] = "Lesson could not be updated."
+    if @lesson.deposit_status == 'confirmed'
+      flash[:alert] = "Lesson successfully created or updated."
+      @lesson.state = 'booked'
+      @lesson.save
     end
     @state = params[:lesson][:state]
   end
 
   def lesson_params
     params.require(:lesson).permit(:activity, :location, :state, :student_count, :gear, :objectives, :duration, :ability_level,
-      :start_time, :actual_start_time, :actual_end_time, :terms_accepted,
+      :start_time, :actual_start_time, :actual_end_time, :terms_accepted, :deposit_status,
       students_attributes: [:id, :name, :age_range, :gender, :relationship_to_requester, :lesson_history, :experience, :_destroy])
   end
 
