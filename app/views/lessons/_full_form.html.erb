@@ -100,13 +100,14 @@
               </label>
             </span>
           </div>
-          <% if @lesson.deposit_status == 'confirmed' %>
+          <% if @lesson %>
+<!--           % if @lesson.deposit_status == 'confirmed' %>-->
           <div class="col-md-3">
             <%= f.input :state, as: :hidden, input_html: { value: @state } %>
-            <%= f.submit "Update", class: 'btn sign-up-btn pull-right' %>
+            <%= f.submit "Submit", class: 'btn sign-up-btn pull-right' %>
           </div>
           <% else %>
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
           <span class="pull-right"> A $50 deposit is required to secure your reservation.
             <form action="" method="POST">
               <script
@@ -121,7 +122,7 @@
               </script>
             </form>
             </span>
-          </div>
+          </div> -->
           <% end %>
         </div>
       </div>
