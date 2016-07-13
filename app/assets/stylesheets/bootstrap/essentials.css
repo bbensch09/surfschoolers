@@ -332,7 +332,7 @@ pre {
 .halfwidth 			{ width:50% !important; 		}
 .container			{
 	position:relative;
-	height: 0px;
+	height: -1px;
 }
 i.fa 				{ text-decoration:none !important;}
 .justify 			{ text-align:justify; 			}
