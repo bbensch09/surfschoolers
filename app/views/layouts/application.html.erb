@@ -40,23 +40,48 @@
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                    <%= link_to raw("<strong>SNOW</strong><span class='schoolers'>SCHOOLERS</span>"), root_path, class: 'logo navbar-brand page-scroll' %>
+
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#services">Services</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#portfolio">Portfolio</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+ -->
+<!-- ORIGINAL SNOW SCHOOLERS HEADER -->
 <header id="header">
   <div class="container">
 
-    <!-- LOGO -->
     <%= link_to raw("<strong>SNOW</strong><span class='schoolers'>SCHOOLERS</span>"), root_path, class: 'logo' %>
-    <!-- LOGO -->
 
-    <!-- OPTIONS -->
     <ul id="topOptions">
-      <li><!-- Mobile Menu Button -->
+      <li>
         <button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
           <i class="fa fa-bars"></i>
         </button>
       </li>
     </ul>
-    <!-- /OPTIONS -->
 
     <div class="navbar-collapse nav-main-collapse collapse pull-right">
       <nav class="nav-main">
@@ -74,13 +99,11 @@
             </li>
           <% else %>
             <% if params[:date] && params[:slot] %>
-              <!-- <li> <%= link_to 'Login', new_user_session_path(date: params[:date], slot: params[:slot]) %> </li> -->
               <li>
                 <%= link_to 'Sign Up', new_user_registration_path(date: params[:date], slot: params[:slot]), class: 'sign-up-btn' %>
               </li>
             <% else %>
-<!--               <li>                <%= link_to 'Login', new_user_session_path %></li>
- -->              <li>
+              <li>
                 <%= link_to 'Sign Up', new_user_registration_path, class: 'sign-up-btn' %>
               </li>
               <li>

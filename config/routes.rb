@@ -1,9 +1,10 @@
 SnowSchoolers::Application.routes.draw do
+  # root to: "lessons#new"
+  root to: "welcome#index"
   resources :instructors
 
   resources :beta_users
 
-  root to: "lessons#new"
 
   resources :lesson_times
 

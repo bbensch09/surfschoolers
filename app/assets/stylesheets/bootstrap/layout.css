@@ -43,7 +43,7 @@ a, a:hover, a:active,
 #footer a:hover,
 #default .styleColor {
 	color:#81BA10;
-}	
+}
 
 .btn-primary {
 	border-color:#333;
@@ -53,7 +53,6 @@ a, a:hover, a:active,
 .btn-primary:hover,
 .btn-primary:active,
 .btn-primary:focus {
-	border-color:#444;
 	background-color:#444;
 }
 
@@ -75,7 +74,7 @@ a, a:hover, a:active,
 
 /** Top Nav
  **************************************************************** **/
-#topBar { 
+#topBar {
 	display: block;
 	position:relative;
 	height:36px;
@@ -125,7 +124,7 @@ a, a:hover, a:active,
 	}
 	#topBar ul.dropdown-menu li>a img,
 	#topBar ul.dropdown-menu li>a i.fa {
-		display:inline-block; 
+		display:inline-block;
 		margin-right:6px;
 	}
 	#topBar ul.dropdown-menu li.divider {
@@ -158,23 +157,23 @@ a, a:hover, a:active,
 		margin:0;
 	}
 
-#header { 
+#header {
 	display: block;
 	position:relative;
-	height:62px;
+	height: 70px;
 	background:#333333;
-	color:#fff; margin-bottom:10px;
+	color:#fff;
 	border-top:rgba(255,255,255,0.06) 1px solid;
 	border-bottom:rgba(255,255,255,0.3) 1px solid;
 	z-index:99; /* keep it over #overlay */
 }
 
-	#header .logo { 
-		display:block; 
-		float:left; 
-		height:60px; 
+	#header .logo {
+		display:block;
+		float:left;
+		height:60px;
 	}
-	
+
 	#header p {
 		color:#ccc;
 	}
@@ -191,9 +190,9 @@ a, a:hover, a:active,
 		   -moz-border-radius: 0;
 				border-radius: 0;
 	}
-	.container>.navbar-header, 
-	.container-fluid>.navbar-header, 
-	.container>.navbar-collapse, 
+	.container>.navbar-header,
+	.container-fluid>.navbar-header,
+	.container>.navbar-collapse,
 	.container-fluid>.navbar-collapse {
 		margin-right: -15px;
 		margin-left: -15px;
@@ -250,14 +249,14 @@ a, a:hover, a:active,
 		}
 
 		.navbar-collapse.collapse {
-			
+
 		}
 
 	}
 		/** Top Menu #1
 		 ******************************* **/
 		#header ul.nav ul {
-			position:absolute; 
+			position:absolute;
 			top:60px; margin:0; padding:0;
 			max-width:200px;
 			background:#333;
@@ -321,7 +320,7 @@ a, a:hover, a:active,
 				background:#373737 !important;
 				color:#fff !important;
 			}
- 
+
 
 	/** Right Options [top menu]
 	******************************* **/
@@ -435,7 +434,7 @@ a, a:hover, a:active,
 		padding:0; margin:0;
 		display:block;
 		overflow:hidden;
-		text-overflow:ellipsis; 
+		text-overflow:ellipsis;
 		white-space: nowrap;
 	}
 	#topCart a.item span {
@@ -478,7 +477,7 @@ a, a:hover, a:active,
 		top:60px; right:0;
 		width:250px;
 		cursor:default;
-		
+
 		padding:8px;
 		background-color:#393939;
 	}
@@ -502,7 +501,7 @@ a, a:hover, a:active,
 	}
 	#topSearch input.form-control {
 		width:80%;
-		display:inline-block;	
+		display:inline-block;
 	}
 	#topSearch .input-group-btn {
 		width:19%;
@@ -546,17 +545,17 @@ a, a:hover, a:active,
 div.mc-image {
 	/*NOTE: Mozilla flickers when fading and using 'all', so we have to be specific with what property we want to transition:
 	 	If you are using fading transitions, use 'opacity: */
-	-webkit-transition: opacity 1s ease-in-out; 
-	-moz-transition: opacity 1s ease-in-out; 
-	-o-transition: opacity 1s ease-in-out; 
+	-webkit-transition: opacity 1s ease-in-out;
+	-moz-transition: opacity 1s ease-in-out;
+	-o-transition: opacity 1s ease-in-out;
 	transition: opacity 1s ease-in-out;
-	
+
 	/*If you are using horizontal slide transitions, use the following CSS:
-	-webkit-transition: left 1s ease-in-out; 
-	-moz-transition: left 1s ease-in-out; 
-	-o-transition: left 1s ease-in-out; 
+	-webkit-transition: left 1s ease-in-out;
+	-moz-transition: left 1s ease-in-out;
+	-o-transition: left 1s ease-in-out;
 	transition: left 1s ease-in-out;*/
-	
+
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -637,7 +636,7 @@ div.mc-image {
 		right:0; bottom: 40px;
 		margin-right:20px;
 		display: inline-block;
-		z-index:0; 
+		z-index:0;
 	}
 	div.maximage-controls #slider_next,
 	div.maximage-controls #slider_prev {
@@ -662,8 +661,8 @@ div.mc-image {
 	}
 
 
-	
-	
+
+
 /** Middle
 **************************************************************** **/
 #middle {
@@ -857,10 +856,10 @@ div.e404 {
 	a.socialbtn.rss:hover {
 		background-color:#e0812a;
 	}
- 
- 
- 
- 
+
+
+
+
 /** Team
 **************************************************************** **/
 .team .thumbnail {
@@ -915,7 +914,7 @@ div.e404 {
 	line-height:16px;
 	text-align:left;
 	height:80px;
-	overflow:hidden; 
+	overflow:hidden;
 	text-overflow:ellipsis;
 	border-bottom:#eee 1px solid;
 	padding-bottom:10px;
@@ -962,7 +961,7 @@ div.e404 {
 .item-box-desc p {
 	margin-top:20px;
 	display:block;
-	overflow:hidden; 
+	overflow:hidden;
 	text-overflow:ellipsis;
 	/*white-space: nowrap;*/
 }
@@ -1029,8 +1028,8 @@ div.e404 {
 	opacity: 1;
 	filter: alpha(opacity=100);
 }
-.nav-pills>li.active>a, 
-.nav-pills>li.active>a:hover, 
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:hover,
 .nav-pills>li.active>a:focus {
 	color:#333;
 	background-color:#EEEEEE;
@@ -1099,7 +1098,7 @@ div.e404 {
 		-o-filter: grayscale(100%);
 		   filter: grayscale(100%);
 		   filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale");
-		   filter: gray; 
+		   filter: gray;
 
 	z-index:1;
 }
@@ -1115,7 +1114,7 @@ div.e404 {
 
 /** Footer
 **************************************************************** **/
-#footer { 
+#footer {
 	background:#333333;
 	color:#fff;
 	font-size:10px;
@@ -1131,12 +1130,12 @@ div.e404 {
 	#footer ul {
 		float:right;
 	}
-	#footer ul, 
+	#footer ul,
 	#footer ul li {
-		margin:0; padding:0; 
+		margin:0; padding:0;
 		list-style:none;
 	}
-	#footer ul li, 
+	#footer ul li,
 	#footer ul li a {
 		float:left;
 		color:#fff;
@@ -1247,7 +1246,7 @@ div.e404 {
 		display:block !important;
 	}
 
-	#header nav.nav-main li.resp-active > ul.dropdown-menu, 
+	#header nav.nav-main li.resp-active > ul.dropdown-menu,
 	#header nav.nav-main li.resp-active > ul.dropdown-menu > ul {
 		box-shadow:none;
 		padding-left:8px;
@@ -1317,7 +1316,7 @@ div.e404 {
 	#slider .caption h2 {
 		display:block;
 	}
-	
+
 	div.maximage-controls {
 		margin-right:5px;
 		bottom:43px;
@@ -1327,7 +1326,7 @@ div.e404 {
 	#portfolio ul.fullcenter .isotope-item {
 		width:100%;  /* 1 item / row */
 	}
-	
+
 	.responsive-top-space {
 		margin-top:80px;
 	}
@@ -1367,7 +1366,7 @@ div.e404 {
 
 	#slider_next,
 	#slider_prev {
-		width:40px !important; 
+		width:40px !important;
 		height:40px !important;
 	}
 	div.maximage-controls #slider_prev {
@@ -1414,7 +1413,7 @@ div.e404 {
 	width:20px;
 	margin-right:10px;
 }
-.fa-hover a span { 
+.fa-hover a span {
 	color:#666;
 }
 .grid-color span {
