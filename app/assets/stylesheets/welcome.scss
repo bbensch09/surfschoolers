@@ -60,7 +60,7 @@ section.small{
 section.pricing-section{
   min-height: 400px ;
   margin-left:auto;
-  padding-top:0px;
+  padding-top:20px;
   padding-bottom: 0px;
 }
 aside {
@@ -438,4 +438,44 @@ body {
 }
 .top-section{
   top:-10px;
+}
+h2.how-it-works {
+    font-weight: bold;
+    font-size: 3.5em;
+    text-transform: uppercase;
+  }
+.highlight{
+  font-weight: bold;
+  color: #3b5998;
+  }
+/*BEGIN MOBILE STYLE ADJUSTMENTS*/
+@media (max-width: 768px) {
+  h1 {font-size: 1.4em;}
+  #header-creative .header-content .header-content-inner p { font-size: 0.7em; }
+  section{
+    padding-top: 20px;
+    padding-right: 0px;
+    padding-bottom: 20px;
+    padding-left: 0px;
+    min-height: 350px;
+  }
+  .price-comparison{
+    max-width: 95vw;
+  }
+  section.pricing-section{
+  min-height: 300px ;
+  padding-top:50px;
+  padding-bottom: 0px;
+  }
+  section.small {
+      min-height: 200px;
+  }
+  .how-it-works{
+    margin-bottom: -40px;
+  }
+  h2.how-it-works {
+    font-weight: bold;
+    font-size: 2.5em;
+    text-transform: uppercase;
+  }
 }
