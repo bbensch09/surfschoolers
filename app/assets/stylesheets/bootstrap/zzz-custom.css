@@ -108,8 +108,6 @@ div.maximage-controls #slider_prev:hover {
 }
 
 #slider .caption .btn {
-  background-color: #DF5DDF;
-  color:#fff;
   position:absolute;
   margin-top:6px;
   cursor:pointer;

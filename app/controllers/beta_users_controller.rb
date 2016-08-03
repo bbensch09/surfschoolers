@@ -1,5 +1,7 @@
 class BetaUsersController < ApplicationController
   before_action :set_beta_user, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authenticate_user!, only: [:new, :create]
+
 
   # GET /beta_users
   # GET /beta_users.json
@@ -28,7 +30,7 @@ class BetaUsersController < ApplicationController
 
     respond_to do |format|
       if @beta_user.save
-        format.html { redirect_to root_path, notice: 'Thanks for signing up!' }
+        format.html { redirect_to root_path, notice: 'Thanks for subscribing!' }
         format.json { render action: 'show', status: :created, location: @beta_user }
       else
         format.html { render action: 'new' }
