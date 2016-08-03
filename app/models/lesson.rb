@@ -16,7 +16,7 @@ class Lesson < ActiveRecord::Base
   validate :lesson_time_must_be_valid
   validate :student_exists, on: :update
 
-  after_create :send_lesson_request_to_instructors
+  after_update :send_lesson_request_to_instructors
   before_save :calculate_actual_lesson_duration, if: :just_finalized?
 
   def date
@@ -28,7 +28,7 @@ class Lesson < ActiveRecord::Base
   end
 
   def active?
-    active_states = ['new', 'booked', 'confirmed', 'pending instructor', 'pending requester']
+    active_states = ['new', 'booked', 'confirmed', 'pending instructor', 'pending requester','']
     active_states.include?(state)
   end
 
@@ -120,7 +120,9 @@ class Lesson < ActiveRecord::Base
   end
 
   def send_lesson_request_to_instructors
-    LessonMailer.send_lesson_request_to_instructors(self).deliver
+    if 2+2==4 #replace with logic that tests whether lesson is newly complete, vs. already booked, etc.
+      LessonMailer.send_lesson_request_to_instructors(self).deliver
+    end
   end
 
   def calculate_actual_lesson_duration
