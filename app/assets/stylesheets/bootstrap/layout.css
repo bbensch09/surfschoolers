@@ -537,6 +537,7 @@ a, a:hover, a:active,
 .mc-cycle {
 	height:100%;
 	left:0;
+  padding-left: 0;
 	overflow:hidden;
 	position:fixed;
 	top:0;
