@@ -143,7 +143,7 @@ class LessonsController < ApplicationController
   def determine_update_state
     @lesson.state = 'new' unless params[:lesson][:terms_accepted] == '1'
     if @lesson.deposit_status == 'confirmed'
-      flash[:alert] = "Lesson deposit has been recorded."
+      flash.now[:notice] = "Your lesson deposit has been recorded."
       @lesson.state = 'booked'
     end
       @lesson.save
