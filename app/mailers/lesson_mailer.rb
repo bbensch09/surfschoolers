@@ -3,7 +3,12 @@ class LessonMailer < ActionMailer::Base
 
   def new_user_signed_up(user)
     @user = user
-    mail(to: 'brian@snowschoolers.com', subject: "A new user has signed up for Ski School")
+    mail(to: 'brian@snowschoolers.com', subject: "A new user has signed up for Snow Schoolers")
+  end
+
+  def subscriber_sign_up(beta_user)
+    @beta_user = beta_user
+    mail(to: 'brian@snowschoolers.com', subject: "Someone has subscribed for Snow Schoolers updates")
   end
 
   def send_lesson_request_to_instructors(lesson, excluded_instructor=nil)
