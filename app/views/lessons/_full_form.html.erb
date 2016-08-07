@@ -42,7 +42,7 @@
           <div class='row'>
             <div class="col-md-4">
               <label>Lesson Length</label>
-              <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3], ['6 hours', 6]], include_blank: 'Length', label: false %>
+              <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3], ['6 hours', 6]], include_blank: 'Length', label: false, :input_html => { :class => 'full-form-focus'} %>
             </div>
 
             <div class="col-md-4">
@@ -56,14 +56,16 @@
             </div> -->
           </div>
 
-          <h4>Student <strong>Info</strong></h4>
+          <h4>Student(s) <strong>Info</strong></h4>
+          <!-- TODO Later: explore cocoon gem to figure out how to preload first student form.
+          https://github.com/nathanvda/cocoon -->
 
           <div id='lesson_students_input'>
             <%= f.semantic_fields_for :students do |student| %>
               <%= render 'student_fields', f: student %>
             <% end %>
             <div class='links'>
-              <%= link_to_add_association 'Add Student', f, :students, class: 'btn btn-success' %>
+              <%= link_to_add_association 'Add Student', f, :students, class: 'btn btn-success', id:'add-student-button' %>
             </div>
             <%= f.semantic_errors :students %>
           </div>
