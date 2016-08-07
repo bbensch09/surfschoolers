@@ -22,3 +22,49 @@
   border: 1px solid gray;
   background-color: rgba(0,60,128,0.3);
 }
+.pricing-container{
+  margin-top: 50px;
+  max-width: 1000px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+.price-header{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.pricing-table{
+  padding: 5 5 5 5px;
+  border: 1px solid gray;
+  margin-top: -45px;
+  margin-bottom: 20px;
+}
+.pricing-table tbody tr td, .pricing-table thead tr th {
+    padding-left: 20px;
+    font-size: 1.3em;
+    line-height: 2;
+}
+.pricing-snowschoolers{
+      text-align: center;
+      color: #38761d;
+}
+.pricing-competitors-names{
+        color: #980000;
+        text-align:center;
+}
+.pricing-competitors{
+      text-align: center;
+      color: #980000;
+      text-decoration: line-through;
+}
+.pricing-table thead {
+  font-size: 1.5em;
+  /*border: 1px solid gray;*/
+/*  background-color: rgba(0,60,128,0.3);
+*/}
+.center{
+  text-align: center;
+}
+.price-header{
+  color: white;
+  background-color: #3b5998;
+}

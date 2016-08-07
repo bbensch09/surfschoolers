@@ -592,6 +592,11 @@ div.mc-image {
 #slider .caption {
 	padding-bottom:40px;
 }
+.caption h3 {
+		background:rgba(0,0,0,0.3);
+		font-size: 1em;
+		padding: 6px;
+}
 #slider .caption h1,
 #slider .caption h2 {
 	color:#fff !important;
