@@ -83,16 +83,10 @@
             <%= f.input :objectives, placeholder: 'What do you hope to get out of this lesson?', label: false %>
           </div>
 
-        </div>
-      </div>
-
-      <hr class='lesson-break' />
-
-      <div class="row">
-        <div class="col-md-6"></div>
-        <div class="col-md-6">
-          <hr>
           <div class="col-md-9">
+            <h4>Submit <strong> Lesson Request</strong></h4>
+            <h5 id="lesson-length">Lesson Length:</h5>
+            <h5 id="donation-amount">Suggested Donation Amount:</h5>
             <span class="remember-box checkbox pull-right">
               <label for="rememberme">
                 <% if @lesson.new? %>
@@ -103,29 +97,40 @@
               </label>
             </span>
           </div>
-           <% if @lesson.deposit_status == 'confirmed' %>
+         <% if @lesson.deposit_status == 'confirmed' %>
           <div class="col-md-3">
             <%= f.input :state, as: :hidden, input_html: { value: @state } %>
             <%= f.submit "Submit", class: 'btn sign-up-btn pull-right' %>
           </div>
           <% else %>
-        <div class="col-md-12">
-          <span class="pull-right"> New members must make a minimum $10 donation prior to booking your first session.
-            <form action="" method="POST">
-              <script
-                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                data-key="pk_test_V3HBGGiV9ZzWXD8SRsTytwtD"
-                data-amount="1000"
-                data-name="Snow Schoolers"
-                data-description="New member donation"
-                data-image="/img/documentation/checkout/marketplace.png"
-                data-locale="auto"
-                data-zip-code="true">
-              </script>
-            </form>
-            </span>
-          </div>
+          <div class="col-md-12">
+            <span class="pull-right"> New members must make a minimum $10 donation prior to booking your first session.
+              <form action="" method="POST">
+                <script
+                  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                  data-key="pk_test_V3HBGGiV9ZzWXD8SRsTytwtD"
+                  data-amount="1000"
+                  data-name="Snow Schoolers"
+                  data-description="New member donation"
+                  data-image="/img/documentation/checkout/marketplace.png"
+                  data-locale="auto"
+                  data-zip-code="true">
+                </script>
+              </form>
+              </span>
+            </div>
           <% end %>
+
+        </div>
+      </div>
+
+      <hr class='lesson-break' />
+
+      <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <hr>
+
         </div>
       </div>
     <% end %>
