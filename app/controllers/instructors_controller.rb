@@ -71,7 +71,7 @@ class InstructorsController < ApplicationController
 
   private
     def confirm_admin_permissions
-      return if current_user.email == 'brian@skischool.co'
+      return if current_user.email == 'brian@skischool.co' || current_user.email == 'bbensch@gmail.com'
       redirect_to root_path, notice: 'You do not have permission to view that page.'
     end
 

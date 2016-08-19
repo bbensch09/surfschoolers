@@ -10,14 +10,14 @@ class Lesson < ActiveRecord::Base
             presence: true, on: :update
   # validates :gear, inclusion: { in: [true, false] }, on: :update
   validates :terms_accepted, inclusion: { in: [true], message: 'must accept terms' }, on: :update
-  validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
+  # validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
   validate :instructors_must_be_available, unless: :no_instructors_post_instructor_drop?
   validate :requester_must_not_be_instructor, on: :create
-  validate :lesson_time_must_be_valid
-  validate :student_exists, on: :update
+  # validate :lesson_time_must_be_valid
+  # validate :student_exists, on: :update
 
-  after_update :send_lesson_request_to_instructors
-  before_save :calculate_actual_lesson_duration, if: :just_finalized?
+  # after_update :send_lesson_request_to_instructors
+  # before_save :calculate_actual_lesson_duration, if: :just_finalized?
 
   def date
     lesson_time.date
@@ -64,7 +64,9 @@ class Lesson < ActiveRecord::Base
   end
 
   def available_instructors
-    User.where("verified_instructor = true") - Lesson.booked_instructors(lesson_time)
+    # User.where("verified_instructor = true") - Lesson.booked_instructors(lesson_time)
+    # User.where("verified_instructor = true")
+    Instructor.all
   end
 
   def available_instructors?
