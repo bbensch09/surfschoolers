@@ -64,9 +64,13 @@ class Lesson < ActiveRecord::Base
   end
 
   def available_instructors
-    # User.where("verified_instructor = true") - Lesson.booked_instructors(lesson_time)
-    # User.where("verified_instructor = true")
-    Instructor.where("preferred_resorts = ?",self.location) - Lesson.booked_instructors(lesson_time)
+    resort = Resort.where("id = ?",self.location).first
+    resort_instructors = resort.instructors
+    # comments to clean up later
+    # puts "the lesson location is #{self.location}"
+    # puts "the resort is #{resort.name}"
+    # puts "there are #{resort_instructors.count} instructors total."
+    resort_instructors - Lesson.booked_instructors(lesson_time)
   end
 
   def available_instructors?

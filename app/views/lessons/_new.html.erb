@@ -24,7 +24,8 @@
               </div>
 
               <div class="col-md-3">
-                <%= f.input :location, as: :select, collection: ['Alta','Aspen','Beaver Creek','Breckenridge','Deer Valley','Heavenly','Kirkwood','North Star','Park City','Snowbird','Sugar Bowl','Vail'], include_blank: 'Mountain', label: false %>
+                <!-- <%= f.input :location, as: :select, collection: ['Alta','Aspen','Beaver Creek','Breckenridge','Deer Valley','Heavenly','Kirkwood','North Star','Park City','Snowbird','Sugar Bowl','Vail'], include_blank: 'Mountain', label: false %> -->
+                <%= f.input :location, as: :select, collection: Resort.all, include_blank: 'Mountain', label: false %>
 
 <!--                  <%= f.input :location, as: :select, collection: ['Mt. Hotham','Falls Creek','Mt. Buller'], include_blank: 'Mountain', label: false %>
  -->              </div>
