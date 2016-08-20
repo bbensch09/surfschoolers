@@ -3,14 +3,14 @@
 <table class="instructors-table">
   <thead>
     <tr>
-      <th>First</th>
-      <th>Last</th>
-      <th>User.name</th>
+<!--       <th>First</th>
+      <th>Last</th> -->
+      <th>Username</th>
       <th>Email</th>
+      <th>Resorts</th>
       <th>Certification</th>
       <th>Phone number</th>
       <th>Sport</th>
-      <th>Intro</th>
       <th>Active Status?</th>
       <!-- <th>Verified Instructor?</th> -->
       <th></th>
@@ -22,20 +22,24 @@
   <tbody>
     <% @instructors.each do |instructor| %>
       <tr>
-        <td><%= instructor.first_name %></td>
-        <td><%= instructor.last_name %></td>
-        <td><%= link_to instructor.user.name, edit_user_registration_path(instructor.user) %></td>
+<!--         <td><%= instructor.first_name %></td>
+        <td><%= instructor.last_name %></td> -->
+        <td><%= link_to instructor.username, edit_user_registration_path(instructor.user) %></td>
         <td><%= link_to instructor.user.email, edit_user_registration_path(instructor.user) %></td>
+        <td>
+          <% instructor.resorts.each do |resort| %>
+              <%= resort.name %> <br>
+          <% end %>
+        </td>
         <td><%= instructor.certification %></td>
         <td><%= instructor.phone_number %></td>
         <td><%= instructor.sport %></td>
-        <td><%= instructor.intro %></td>
         <td><%= instructor.status %></td>
         <!-- <td><%= instructor.user.verified_instructor %></td> -->
         <% if instructor.status != "Active" %>
-        <td><%= link_to 'Verify Now', verify_instructor_path(instructor), method: :post, class: 'btn btn-default' %></td>
+        <td><%= link_to 'Verify Now', verify_instructor_path(instructor), method: :post, class: 'btn btn-success' %></td>
           <% else %>
-        <td><%= link_to 'Revoke', revoke_instructor_path(instructor), method: :post, class: 'btn btn-default' %></td>
+        <td><%= link_to 'Revoke', revoke_instructor_path(instructor), method: :post, class: 'btn btn-danger' %></td>
         <% end %>
         <td><%= link_to 'Show', instructor %></td>
         <td><%= link_to 'Edit', edit_instructor_path(instructor) %></td>
