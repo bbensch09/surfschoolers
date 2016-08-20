@@ -2,10 +2,24 @@ class InstructorsController < ApplicationController
   before_action :set_instructor, only: [:show, :edit, :update, :destroy]
   before_action :confirm_admin_permissions, except: [:create, :new]
 
+  def verify
+    instructor = Instructor.find(params[:id])
+    instructor.status = 'Active'
+    instructor.save
+    redirect_to instructors_path, notice: "Instructor has been verified"
+  end
+
+  def revoke
+    instructor = Instructor.find(params[:id])
+    instructor.status = "Revoked"
+    instructor.save
+    redirect_to instructors_path, notice: "Instructor privileges have been revoked"
+  end
+
   # GET /instructors
   # GET /instructors.json
   def index
-    @instructors = Instructor.all
+    @instructors = Instructor.all.sort {|a,b| a.last_name <=> b.last_name}
   end
 
   # GET /instructors/1

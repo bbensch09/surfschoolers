@@ -3,7 +3,12 @@ SnowSchoolers::Application.routes.draw do
 
   # root to: "lessons#new"
   root to: "welcome#index"
-  resources :instructors
+  resources :instructors do
+    member do
+        post :verify
+        post :revoke
+      end
+  end
 
   resources :beta_users
 
@@ -12,8 +17,8 @@ SnowSchoolers::Application.routes.draw do
 
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: "users/omniauth_callbacks" }
   devise_scope :user do
-    post "users/:id/verify", :to => "users/registrations#verify_instructor", :as => "verify_instructor"
-    post "users/:id/revoke", :to => "users/registrations#revoke_instructor", :as => "revoke_instructor"
+    # post "users/:id/verify", :to => "users/registrations#verify_instructor", :as => "verify_instructor"
+    # post "users/:id/revoke", :to => "users/registrations#revoke_instructor", :as => "revoke_instructor"
   end
 
   resources :lessons

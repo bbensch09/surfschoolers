@@ -1,19 +1,19 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   before_filter :configure_permitted_parameters
 
-  def verify_instructor
-    user = User.find(params[:id])
-    user.verified_instructor = true
-    user.save
-    redirect_to instructors_path, notice: "Instructor has been verified"
-  end
+  # def verify_instructor
+  #   user = User.find(params[:id])
+  #   user.verified_instructor = true
+  #   user.save
+  #   redirect_to instructors_path, notice: "Instructor has been verified"
+  # end
 
-  def revoke_instructor
-    user = User.find(params[:id])
-    user.verified_instructor = false
-    user.save
-    redirect_to instructors_path, notice: "Instructor privileges have been revoked"
-  end
+  # def revoke_instructor
+  #   user = User.find(params[:id])
+  #   user.verified_instructor = false
+  #   user.save
+  #   redirect_to instructors_path, notice: "Instructor privileges have been revoked"
+  # end
 
   private
 

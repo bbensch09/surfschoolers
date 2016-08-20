@@ -11,8 +11,8 @@
       <th>Phone number</th>
       <th>Sport</th>
       <th>Intro</th>
-      <th>Status</th>
-      <th>Verified Instructor?</th>
+      <th>Active Status?</th>
+      <!-- <th>Verified Instructor?</th> -->
       <th></th>
       <th></th>
       <th></th>
@@ -31,11 +31,11 @@
         <td><%= instructor.sport %></td>
         <td><%= instructor.intro %></td>
         <td><%= instructor.status %></td>
-        <td><%= instructor.user.verified_instructor %></td>
-        <% if instructor.user.verified_instructor == true %>
-        <td><%= link_to 'Revoke', revoke_instructor_path(instructor.user), method: :post, class: 'btn btn-default' %></td>
+        <!-- <td><%= instructor.user.verified_instructor %></td> -->
+        <% if instructor.status != "Active" %>
+        <td><%= link_to 'Verify Now', verify_instructor_path(instructor), method: :post, class: 'btn btn-default' %></td>
           <% else %>
-        <td><%= link_to 'Verify Now', verify_instructor_path(instructor.user), method: :post, class: 'btn btn-default' %></td>
+        <td><%= link_to 'Revoke', revoke_instructor_path(instructor), method: :post, class: 'btn btn-default' %></td>
         <% end %>
         <td><%= link_to 'Show', instructor %></td>
         <td><%= link_to 'Edit', edit_instructor_path(instructor) %></td>
