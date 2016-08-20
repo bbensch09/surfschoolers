@@ -38,6 +38,7 @@ class LessonsController < ApplicationController
     @lesson.lesson_time = @lesson_time = LessonTime.find_or_create_by(lesson_time_params)
     @lesson.deposit_status = 'confirmed'
     @lesson.save ? send_lesson_update_notice_to_instructor : determine_update_state
+    flash[:notice] = 'Thank you, your lesson request was successful. You will receive an email notification when an instructor has been matched to your request. If it has been more than an hour since your request, please email support@snowschoolers.com.'
     respond_with @lesson
   end
 

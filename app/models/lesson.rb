@@ -66,7 +66,7 @@ class Lesson < ActiveRecord::Base
   def available_instructors
     # User.where("verified_instructor = true") - Lesson.booked_instructors(lesson_time)
     # User.where("verified_instructor = true")
-    Instructor.all
+    Instructor.where("preferred_resorts = ?",self.location) - Lesson.booked_instructors(lesson_time)
   end
 
   def available_instructors?

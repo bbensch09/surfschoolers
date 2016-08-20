@@ -22,8 +22,18 @@
             </div>
             <div class="field">
               <%= f.label "Preferred Resort" %><br />
-              <%= f.select :preferred_resorts, ['Alta','Aspen','Beaver Creek','Breckenridge','Deer Valley','Heavenly','Kirkwood','North Star','Park City','Snowbird','Sugar Bowl','Vail'], class: 'form-control' %>
-            </div>
+              <!-- <%= f.select :preferred_resorts, ['Alta','Aspen','Beaver Creek','Breckenridge','Deer Valley','Heavenly','Kirkwood','North Star','Park City','Snowbird','Sugar Bowl','Vail'], class: 'form-control' %> -->
+              <%= f.collection_check_boxes :resort_ids, Resort.all, :id, :name do |resort_item| %>
+                <div class="collection-check-box">
+                  <%= resort_item.check_box %>
+                  <%= resort_item.label %>
+                </div>
+              <% end %>
+<!--               <%= check_box_tag(:preferred_resorts) %>
+              <%= label_tag(:preferred_resorts, "test") %> <br>
+              <%= check_box_tag(:preferred_resorts) %>
+              <%= label_tag(:preferred_resorts, "Aspen") %>
+ -->            </div>
             <div class="field">
               <%= f.text_field :certification, placeholder: 'Do you hold any certifications?', class: 'form-control' %>
             </div>

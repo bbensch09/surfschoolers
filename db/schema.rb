@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160711201823) do
+ActiveRecord::Schema.define(version: 20160820042711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,11 @@ ActiveRecord::Schema.define(version: 20160711201823) do
     t.datetime "updated_at"
   end
 
+  create_table "instructors_resorts", id: false, force: true do |t|
+    t.integer "instructor_id", null: false
+    t.integer "resort_id",     null: false
+  end
+
   create_table "lesson_times", force: true do |t|
     t.date   "date"
     t.string "slot"
@@ -63,6 +68,12 @@ ActiveRecord::Schema.define(version: 20160711201823) do
     t.string   "actual_end_time"
     t.float    "actual_duration"
     t.boolean  "terms_accepted"
+  end
+
+  create_table "resorts", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "students", force: true do |t|
