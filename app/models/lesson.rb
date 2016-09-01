@@ -111,7 +111,7 @@ class Lesson < ActiveRecord::Base
   end
 
   def self.find_booked_lessons(lesson_time)
-    lessons_in_same_slot = self.where('lesson_time_id = ?', lesson_time.id)
+    lessons_in_same_slot = Lesson.where('lesson_time_id = ?', lesson_time.id)
     overlapping_full_day_lessons = self.find_full_day_lessons(lesson_time)
     return lessons_in_same_slot + overlapping_full_day_lessons
   end
