@@ -118,14 +118,13 @@ class Lesson < ActiveRecord::Base
   end
 
   def self.find_full_day_lessons(full_day_lesson_time)
-    full_day_lesson_time = LessonTime.find_by_date_and_slot(full_day_lesson_time.date,'Full Day')
+    return [] unless full_day_lesson_time = LessonTime.find_by_date_and_slot(full_day_lesson_time.date,'Full Day')
     booked_lessons = []
     lessons_on_same_day = Lesson.where("lesson_time_id=? AND instructor_id is not null",full_day_lesson_time.id)
       lessons_on_same_day.each do |lesson|
         booked_lessons << lesson
         puts "added a booked lesson to the booked_lesson set"
       end
-    puts booked_lessons
     puts "After searching through the matching lesson times on this date, the booked lesson count on this day is now: #{booked_lessons.count}"
     return booked_lessons
   end
@@ -141,7 +140,6 @@ class Lesson < ActiveRecord::Base
         puts "added a booked lesson to the booked_lesson set"
       end
     end
-    puts booked_lessons
     puts "After searching through the matching lesson times on this date, the booked lesson count on this day is now: #{booked_lessons.count}"
     return booked_lessons
   end

@@ -3,7 +3,7 @@
     <%= button_to "Accept this Lesson Request", set_instructor_path, method: :put, class: "btn btn-success" %>
   <% end %>
 
-  <% if current_user == @lesson.instructor.user %>
+  <% if current_user.instructor && current_user == @lesson.instructor.user %>
     <% if @lesson.pending_instructor? %>
       <%= button_to "Confirm Updates", set_instructor_path, method: :put, class: "btn btn-default" %>
     <% end %>
