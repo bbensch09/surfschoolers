@@ -57,7 +57,7 @@ class LessonsController < ApplicationController
 
   def set_instructor
     @lesson = Lesson.find(params[:id])
-    @lesson.instructor = current_user.instructor.id
+    @lesson.instructor_id = current_user.instructor.id
     @lesson.update(state: 'confirmed')
     LessonMailer.send_lesson_confirmation(@lesson).deliver
     redirect_to @lesson
@@ -130,7 +130,7 @@ class LessonsController < ApplicationController
   end
 
   def check_user_permissions
-    unless current_user && (current_user == @lesson.requester || current_user.verified_instructor?)
+    unless current_user && (current_user == @lesson.requester || current_user.instructor && current_user.instructor.status == "Active")
       flash[:alert] = "You do not have access to this page."
       redirect_to root_path
     end

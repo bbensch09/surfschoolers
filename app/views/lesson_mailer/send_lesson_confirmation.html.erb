@@ -6,7 +6,7 @@
   <body>
     <h1>Lesson Request Confirmed</h1>
     <ul>
-      <li>Instructor: <%= @lesson.instructor.name %></li>
+      <li>Instructor: <%= @lesson.instructor.username %></li>
       <li>Students: <%= @lesson.students.map(&:name).join(', ') %></li>
       <li>Date: <%= @lesson.date %></li>
       <li>Slot: <%= @lesson.slot %></li>

@@ -1,9 +1,15 @@
 <h1>[ADMIN ONLY] List of all lessons</h1>
 
-<table>
+<table class="instructors-table">
   <thead>
     <tr>
-      <th>Lesson Link</th>
+      <th>Lesson ID</th>
+      <th>Lesson Details</th>
+      <th>Requester</th>
+      <th>Instructor</th>
+      <th>Resort</th>
+      <th>Date</th>
+      <th>Time Slot</th>
       <th>Time Stamp</th>
       <th></th>
       <th></th>
@@ -13,8 +19,17 @@
   <tbody>
     <% @lessons.each do |lesson| %>
       <tr>
-        <td><%= link_to lesson.id, lesson %></td>
-        <td><%= lesson.created_at %></td>
+        <td><%= lesson.id %></td>
+        <td><%= link_to "#{lesson.activity} lesson at #{lesson.resort.name}", lesson %></td>
+        <td><%= lesson.requester.email %></td>
+        <% if lesson.instructor %>
+        <td><%= lesson.instructor.username %></td>
+        <% else %>
+        <td>"TBD"</td>
+        <% end %>
+        <td><%= lesson.resort.name %></td>
+        <td><%= lesson.lesson_time.date %></td>
+        <td><%= lesson.lesson_time.slot %></td>
         <td><%= link_to 'Edit', edit_lesson_path(lesson) %></td>
         <td><%= link_to 'Destroy', lesson, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

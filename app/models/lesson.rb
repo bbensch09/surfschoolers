@@ -16,7 +16,7 @@ class Lesson < ActiveRecord::Base
   validate :lesson_time_must_be_valid
   validate :student_exists, on: :update
 
-  # after_update :send_lesson_request_to_instructors
+  after_update :send_lesson_request_to_instructors
   # before_save :calculate_actual_lesson_duration, if: :just_finalized?
 
   def date
