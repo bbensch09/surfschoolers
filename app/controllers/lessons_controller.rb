@@ -57,7 +57,7 @@ class LessonsController < ApplicationController
 
   def set_instructor
     @lesson = Lesson.find(params[:id])
-    @lesson.instructor = current_user
+    @lesson.instructor = current_user.instructor.id
     @lesson.update(state: 'confirmed')
     LessonMailer.send_lesson_confirmation(@lesson).deliver
     redirect_to @lesson
