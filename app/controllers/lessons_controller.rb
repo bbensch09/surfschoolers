@@ -37,8 +37,12 @@ class LessonsController < ApplicationController
     @lesson.assign_attributes(lesson_params)
     @lesson.lesson_time = @lesson_time = LessonTime.find_or_create_by(lesson_time_params)
     @lesson.deposit_status = 'confirmed'
-    @lesson.save ? send_lesson_update_notice_to_instructor : determine_update_state
-    flash[:notice] = 'Thank you, your lesson request was successful. You will receive an email notification when an instructor has been matched to your request. If it has been more than an hour since your request, please email support@snowschoolers.com.'
+    if @lesson.save
+      send_lesson_update_notice_to_instructor
+      flash[:notice] = 'Thank you, your lesson request was successful. You will receive an email notification when an instructor has been matched to your request. If it has been more than an hour since your request, please email support@snowschoolers.com.'
+    else
+      determine_update_state
+    end
     respond_with @lesson
   end
 
@@ -144,7 +148,7 @@ class LessonsController < ApplicationController
   def determine_update_state
     @lesson.state = 'new' unless params[:lesson][:terms_accepted] == '1'
     if @lesson.deposit_status == 'confirmed'
-      flash.now[:notice] = "Your lesson deposit has been recorded."
+      flash.now[:notice] = "Your lesson deposit has been recorded, but your lesson reservation is incomplete. Please fix the fields below and resubmit."
       @lesson.state = 'booked'
     end
       @lesson.save
