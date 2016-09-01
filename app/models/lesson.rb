@@ -69,20 +69,20 @@ class Lesson < ActiveRecord::Base
 
   def available_instructors
     # puts "the lesson location is #{self.location}"
-    resort = Resort.where("id = ?",self.location).first
+    # resort = Resort.where("id = ?",self.location).first
     # puts "the resort is #{resort.name}"
-    resort_instructors = resort.instructors
-    puts "there are #{resort_instructors.count} total instructors at #{resort.name}."
+    resort_instructors = self.resort.instructors
+    # puts "there are #{resort_instructors.count} total instructors at #{resort.name}."
     if self.activity == 'Ski'
         sport = "Ski Instructor"
       else
         sport = "Snowboard Instructor"
     end
-    puts "The instructor type sought is: #{sport}"
+    # puts "The instructor type sought is: #{sport}"
     eligible_resort_instructors = resort_instructors.where("sport=?",sport)
-    puts "Before filtering for booked lessons, there are #{eligible_resort_instructors.count} eligible instructors."
+    # puts "Before filtering for booked lessons, there are #{eligible_resort_instructors.count} eligible instructors."
     already_booked_instructors = Lesson.booked_instructors(lesson_time)
-    puts "The number of already booked instructors is: #{already_booked_instructors.count}"
+    # puts "The number of already booked instructors is: #{already_booked_instructors.count}"
     available_instructors = eligible_resort_instructors - already_booked_instructors
     return available_instructors
   end
@@ -96,14 +96,13 @@ class Lesson < ActiveRecord::Base
   end
 
   def self.booked_instructors(lesson_time)
-    puts "checking for booked instructors on #{lesson_time.date} during the #{lesson_time.slot} slot"
+    # puts "checking for booked instructors on #{lesson_time.date} during the #{lesson_time.slot} slot"
     if lesson_time.slot == 'Full Day'
       booked_lessons = self.find_all_booked_lessons_in_day(lesson_time)
     else
       booked_lessons = self.find_booked_lessons(lesson_time)
     end
-    puts "There is/are #{booked_lessons.count} lesson(s) already booked at this time."
-    # booked_lessons.any? ? booked_lessons[0...-1].map { |lesson| Instructor.find(lesson.instructor_id) } : []
+    # puts "There is/are #{booked_lessons.count} lesson(s) already booked at this time."
     booked_instructors = []
     booked_lessons.each do |lesson|
       booked_instructors << lesson.instructor
@@ -123,24 +122,23 @@ class Lesson < ActiveRecord::Base
     lessons_on_same_day = Lesson.where("lesson_time_id=? AND instructor_id is not null",full_day_lesson_time.id)
       lessons_on_same_day.each do |lesson|
         booked_lessons << lesson
-        puts "added a booked lesson to the booked_lesson set"
+        # puts "added a booked lesson to the booked_lesson set"
       end
-    puts "After searching through the matching lesson times on this date, the booked lesson count on this day is now: #{booked_lessons.count}"
+    # puts "After searching through the matching lesson times on this date, the booked lesson count on this day is now: #{booked_lessons.count}"
     return booked_lessons
   end
 
   def self.find_all_booked_lessons_in_day(full_day_lesson_time)
     matching_lesson_times = LessonTime.where("date=?",full_day_lesson_time.date)
-    puts "------there are #{matching_lesson_times.count} matched lesson times on this date."
+    # puts "------there are #{matching_lesson_times.count} matched lesson times on this date."
     booked_lessons = []
     matching_lesson_times.each do |lt|
       lessons_at_lt = Lesson.where("lesson_time_id=? AND instructor_id is not null",lt.id)
       lessons_at_lt.each do |lesson|
         booked_lessons << lesson
-        puts "added a booked lesson to the booked_lesson set"
       end
     end
-    puts "After searching through the matching lesson times on this date, the booked lesson count on this day is now: #{booked_lessons.count}"
+    # puts "After searching through the matching lesson times on this date, the booked lesson count on this day is now: #{booked_lessons.count}"
     return booked_lessons
   end
 
