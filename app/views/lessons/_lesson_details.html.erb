@@ -1,7 +1,7 @@
 <p>Requester: <%= @lesson.requester.name %></p>
 
 <% if @lesson.instructor %>
-  <p>Instructor: <%= @lesson.instructor.name %></p>
+  <p>Instructor: <%= @lesson.instructor.username %></p>
 <% else %>
   <% if @lesson.pending_requester? %>
     <p>No instructors available for this date and time. Please edit or cancel.</p>
@@ -22,7 +22,7 @@
 
       <div class="col-md-6">
         <label>Mountain:</label>
-        <div class='form-control'><%= @lesson.location %></div>
+        <div class='form-control'><%= @lesson.resort.name %></div>
       </div>
     </div>
 

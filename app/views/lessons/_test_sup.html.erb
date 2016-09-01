@@ -4,15 +4,15 @@
 <ul id="slider">
   <li>
     <!-- <img src="/assets/demo/slider/thredbo-village-resort-hero.jpg" class="bg-photo" alt="" /> -->
-    <img src="/assets/demo/slider/thredbo1.jpg" class="bg-photo" alt="" />
+    <img src="/assets/demo/slider/sup_Tahoe.jpg" class="bg-photo" alt="" />
     <div class="caption">
 
       <div class="block">
-        <h1>BOOK A LESSON TODAY</h1>
+        <h1>BOOK A GROUP OUTING</h1>
       </div>
 
       <div class="block">
-        <p>Personalized one-on-one attention from an expert <strong>Snow Schoolers </strong> instructor is the best way to experience the Snowies!</p>
+        <p>Stand Up Paddle Boarding on Lake Tahoe is the perfect team bonding activity for your summer getaway.</p>
       </div>
 
       <%= semantic_form_for @lesson do |f| %>
@@ -20,11 +20,12 @@
           <div class="block inputs">
             <p>
               <div class="col-md-3">
-                <%= f.input :activity, as: :select, collection: ['Ski', 'Snowboard'], include_blank: 'Lesson Type', label: false %>
+                <%= f.input :activity, as: :select, collection: ['Ski', 'Snowboard'], include_blank: 'Group Size', label: false %>
               </div>
 
               <div class="col-md-3">
-                <%= f.input :location, as: :select, collection: Resort.all, include_blank: 'Mountain', label: false %>
+<!--                 <%= f.input :location, as: :select, collection: ['Alta','Aspen','Beaver Creek','Breckenridge','Deer Valley','Heavenly','Kirkwood','North Star','Park City','Snowbird','Sugar Bowl','Vail'], include_blank: 'Location', label: false %>
+ -->                <%= f.input :location, as: :select, collection: ['Mt. Hotham','Falls Creek','Mt. Buller'], include_blank: 'Location', label: false %>
               </div>
 
               <%= f.semantic_fields_for :lesson_time, @lesson_time do |lt_f| %>
@@ -44,7 +45,7 @@
 
         <div class="block">
           <%= f.actions do %>
-            <%= f.action :submit, as: :input, button_html: { class: 'btn btn-primary btn-lg', value: 'Book Lesson' } %>
+            <%= f.action :submit, as: :input, button_html: { class: 'btn btn-primary btn-lg', value: 'Book Outing' } %>
           <% end %>
         </div>
       <% end %>

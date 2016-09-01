@@ -1,9 +1,9 @@
 <div class='active-actions'>
-  <% if current_user.verified_instructor? && @lesson.instructor.nil? %>
+  <% if current_user.instructor && current_user.instructor.status == "Active" && @lesson.instructor.nil? %>
     <%= button_to "Accept this Lesson Request", set_instructor_path, method: :put, class: "btn btn-success" %>
   <% end %>
 
-  <% if current_user == @lesson.instructor %>
+  <% if current_user.instructor && @lesson.instructor && current_user == @lesson.instructor.user %>
     <% if @lesson.pending_instructor? %>
       <%= button_to "Confirm Updates", set_instructor_path, method: :put, class: "btn btn-default" %>
     <% end %>

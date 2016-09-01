@@ -1,6 +1,6 @@
 class Lesson < ActiveRecord::Base
   belongs_to :requester, class_name: 'User', foreign_key: 'requester_id'
-  belongs_to :instructor, class_name: 'User', foreign_key: 'instructor_id'
+  belongs_to :instructor
   belongs_to :lesson_time
   has_many :students
   accepts_nested_attributes_for :students, reject_if: :all_blank, allow_destroy: true
@@ -10,14 +10,14 @@ class Lesson < ActiveRecord::Base
             presence: true, on: :update
   # validates :gear, inclusion: { in: [true, false] }, on: :update
   validates :terms_accepted, inclusion: { in: [true], message: 'must accept terms' }, on: :update
-  validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
+  # validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
   validate :instructors_must_be_available, unless: :no_instructors_post_instructor_drop?
   validate :requester_must_not_be_instructor, on: :create
   validate :lesson_time_must_be_valid
   validate :student_exists, on: :update
 
   after_update :send_lesson_request_to_instructors
-  before_save :calculate_actual_lesson_duration, if: :just_finalized?
+  # before_save :calculate_actual_lesson_duration, if: :just_finalized?
 
   def date
     lesson_time.date
@@ -25,6 +25,10 @@ class Lesson < ActiveRecord::Base
 
   def slot
     lesson_time.slot
+  end
+
+  def resort
+    Resort.find(self.location.to_i)
   end
 
   def active?
@@ -64,7 +68,23 @@ class Lesson < ActiveRecord::Base
   end
 
   def available_instructors
-    User.where("verified_instructor = true") - Lesson.booked_instructors(lesson_time)
+    # puts "the lesson location is #{self.location}"
+    # resort = Resort.where("id = ?",self.location).first
+    # puts "the resort is #{resort.name}"
+    resort_instructors = self.resort.instructors
+    # puts "there are #{resort_instructors.count} total instructors at #{resort.name}."
+    if self.activity == 'Ski'
+        sport = "Ski Instructor"
+      else
+        sport = "Snowboard Instructor"
+    end
+    # puts "The instructor type sought is: #{sport}"
+    eligible_resort_instructors = resort_instructors.where("sport=?",sport)
+    # puts "Before filtering for booked lessons, there are #{eligible_resort_instructors.count} eligible instructors."
+    already_booked_instructors = Lesson.booked_instructors(lesson_time)
+    # puts "The number of already booked instructors is: #{already_booked_instructors.count}"
+    available_instructors = eligible_resort_instructors - already_booked_instructors
+    return available_instructors
   end
 
   def available_instructors?
@@ -76,29 +96,50 @@ class Lesson < ActiveRecord::Base
   end
 
   def self.booked_instructors(lesson_time)
-    booked_lessons = lesson_time.slot == 'Full Day' ? self.find_all_booked_lessons_in_day(lesson_time) : self.find_booked_lessons(lesson_time)
-    booked_lessons.any? ? booked_lessons[0...-1].map { |lesson| User.find(lesson.instructor_id) } : []
-    # HACKY CODE
-    # puts "!!!!!!!!! booked lessons value is: #{booked_lessons}"
-    # puts "# of booked lessons is: #{booked_lessons.count}"
-    # booked_instructors = []
-    # booked_lessons[0...-1].each do |lesson|
-    #   booked_instructors << User.find(lesson.instructor_id)
-    # end
-    # return booked_instructors
+    # puts "checking for booked instructors on #{lesson_time.date} during the #{lesson_time.slot} slot"
+    if lesson_time.slot == 'Full Day'
+      booked_lessons = self.find_all_booked_lessons_in_day(lesson_time)
+    else
+      booked_lessons = self.find_booked_lessons(lesson_time)
+    end
+    # puts "There is/are #{booked_lessons.count} lesson(s) already booked at this time."
+    booked_instructors = []
+    booked_lessons.each do |lesson|
+      booked_instructors << lesson.instructor
+    end
+    return booked_instructors
   end
 
   def self.find_booked_lessons(lesson_time)
-    self.where('lesson_time_id = ? AND instructor_id is not null', lesson_time.id)
+    lessons_in_same_slot = Lesson.where('lesson_time_id = ?', lesson_time.id)
+    overlapping_full_day_lessons = self.find_full_day_lessons(lesson_time)
+    return lessons_in_same_slot + overlapping_full_day_lessons
+  end
+
+  def self.find_full_day_lessons(full_day_lesson_time)
+    return [] unless full_day_lesson_time = LessonTime.find_by_date_and_slot(full_day_lesson_time.date,'Full Day')
+    booked_lessons = []
+    lessons_on_same_day = Lesson.where("lesson_time_id=? AND instructor_id is not null",full_day_lesson_time.id)
+      lessons_on_same_day.each do |lesson|
+        booked_lessons << lesson
+        # puts "added a booked lesson to the booked_lesson set"
+      end
+    # puts "After searching through the matching lesson times on this date, the booked lesson count on this day is now: #{booked_lessons.count}"
+    return booked_lessons
   end
 
   def self.find_all_booked_lessons_in_day(full_day_lesson_time)
-    morning_lesson_time = LessonTime.find_morning_slot(full_day_lesson_time.date)
-    afternoon_lesson_time = LessonTime.find_afternoon_slot(full_day_lesson_time.date)
-    full_day_booked_lessons = self.find_booked_lessons(full_day_lesson_time)
-    morning_booked_lessons = self.find_booked_lessons(morning_lesson_time) if morning_lesson_time
-    afternoon_booked_lessons = self.find_booked_lessons(afternoon_lesson_time) if afternoon_lesson_time
-    [full_day_booked_lessons, morning_booked_lessons, afternoon_booked_lessons].flatten
+    matching_lesson_times = LessonTime.where("date=?",full_day_lesson_time.date)
+    # puts "------there are #{matching_lesson_times.count} matched lesson times on this date."
+    booked_lessons = []
+    matching_lesson_times.each do |lt|
+      lessons_at_lt = Lesson.where("lesson_time_id=? AND instructor_id is not null",lt.id)
+      lessons_at_lt.each do |lesson|
+        booked_lessons << lesson
+      end
+    end
+    # puts "After searching through the matching lesson times on this date, the booked lesson count on this day is now: #{booked_lessons.count}"
+    return booked_lessons
   end
 
   private

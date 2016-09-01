@@ -73,3 +73,20 @@
 .full-form-focus{
   border: 1px solid #3b5998;
 }
+@media (max-width: 768px) {
+
+.pricing-container{
+  margin-top: 50px;
+  max-width: 100%;
+  margin-left: 0%;
+  margin-right: 0%;
+  min-height: 70vh;
+}
+.pricing-snowschoolers, .pricing-competitors-names, .pricing-competitors, .pricing-length{
+  font-size: 0.9em !important;
+  line-height: 1  !important;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+  padding-top: 2px !important;
+}
+}

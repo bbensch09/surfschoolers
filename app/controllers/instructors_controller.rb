@@ -2,10 +2,24 @@ class InstructorsController < ApplicationController
   before_action :set_instructor, only: [:show, :edit, :update, :destroy]
   before_action :confirm_admin_permissions, except: [:create, :new]
 
+  def verify
+    instructor = Instructor.find(params[:id])
+    instructor.status = 'Active'
+    instructor.save
+    redirect_to instructors_path, notice: "Instructor has been verified"
+  end
+
+  def revoke
+    instructor = Instructor.find(params[:id])
+    instructor.status = "Revoked"
+    instructor.save
+    redirect_to instructors_path, notice: "Instructor privileges have been revoked"
+  end
+
   # GET /instructors
   # GET /instructors.json
   def index
-    @instructors = Instructor.all
+    @instructors = Instructor.all.sort {|a,b| a.last_name <=> b.last_name}
   end
 
   # GET /instructors/1
@@ -71,7 +85,7 @@ class InstructorsController < ApplicationController
 
   private
     def confirm_admin_permissions
-      return if current_user.email == 'brian@skischool.co'
+      return if current_user.email == 'brian@skischool.co' || current_user.email == 'bbensch@gmail.com'
       redirect_to root_path, notice: 'You do not have permission to view that page.'
     end
 
@@ -82,6 +96,6 @@ class InstructorsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def instructor_params
-      params.require(:instructor).permit(:first_name, :last_name, :username, :preferred_resorts, :certification, :phone_number, :sport, :bio, :intro, :status)
+      params.require(:instructor).permit(:first_name, :last_name, :username, :preferred_resorts, :certification, :phone_number, :sport, :bio, :intro, :status, resort_ids:[])
     end
 end

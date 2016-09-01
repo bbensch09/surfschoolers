@@ -34,8 +34,12 @@
 </p>
 
 <p>
-  <strong>Resort:</strong>
-  <%= @instructor.preferred_resorts %>
+  <strong>Resorts:</strong>
+  <ul>
+    <% @instructor.resorts.each do |resort| %>
+    <li> <%= resort.name %> </li>
+    <% end %>
+  </ul>
 </p>
 
 <p>

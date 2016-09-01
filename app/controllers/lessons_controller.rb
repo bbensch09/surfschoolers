@@ -37,7 +37,12 @@ class LessonsController < ApplicationController
     @lesson.assign_attributes(lesson_params)
     @lesson.lesson_time = @lesson_time = LessonTime.find_or_create_by(lesson_time_params)
     @lesson.deposit_status = 'confirmed'
-    @lesson.save ? send_lesson_update_notice_to_instructor : determine_update_state
+    if @lesson.save
+      send_lesson_update_notice_to_instructor
+      flash[:notice] = 'Thank you, your lesson request was successful. You will receive an email notification when an instructor has been matched to your request. If it has been more than an hour since your request, please email support@snowschoolers.com.'
+    else
+      determine_update_state
+    end
     respond_with @lesson
   end
 
@@ -56,7 +61,7 @@ class LessonsController < ApplicationController
 
   def set_instructor
     @lesson = Lesson.find(params[:id])
-    @lesson.instructor = current_user
+    @lesson.instructor_id = current_user.instructor.id
     @lesson.update(state: 'confirmed')
     LessonMailer.send_lesson_confirmation(@lesson).deliver
     redirect_to @lesson
@@ -129,7 +134,7 @@ class LessonsController < ApplicationController
   end
 
   def check_user_permissions
-    unless current_user && (current_user == @lesson.requester || current_user.verified_instructor?)
+    unless current_user && (current_user == @lesson.requester || current_user.instructor && current_user.instructor.status == "Active")
       flash[:alert] = "You do not have access to this page."
       redirect_to root_path
     end
@@ -143,7 +148,7 @@ class LessonsController < ApplicationController
   def determine_update_state
     @lesson.state = 'new' unless params[:lesson][:terms_accepted] == '1'
     if @lesson.deposit_status == 'confirmed'
-      flash.now[:notice] = "Your lesson deposit has been recorded."
+      flash.now[:notice] = "Your lesson deposit has been recorded, but your lesson reservation is incomplete. Please fix the fields below and resubmit."
       @lesson.state = 'booked'
     end
       @lesson.save
