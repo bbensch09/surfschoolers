@@ -5,6 +5,7 @@
     <tr>
       <th>Lesson ID</th>
       <th>Lesson Details</th>
+      <th>Deposit Status</th>
       <th>Requester</th>
       <th>Instructor</th>
       <th>Resort</th>
@@ -21,6 +22,7 @@
       <tr>
         <td><%= lesson.id %></td>
         <td><%= link_to "#{lesson.activity} lesson at #{lesson.resort.name}", lesson %></td>
+        <td><%= lesson.deposit_status %></td>
         <td><%= lesson.requester.email %></td>
         <% if lesson.instructor %>
         <td><%= lesson.instructor.username %></td>
@@ -28,7 +30,7 @@
         <td>"TBD"</td>
         <% end %>
         <td><%= lesson.resort.name %></td>
-        <td><%= lesson.lesson_time.date %></td>
+        <td><%= lesson.lesson_time.date.strftime("%m/%d") %></td>
         <td><%= lesson.lesson_time.slot %></td>
         <td><%= link_to 'Edit', edit_lesson_path(lesson) %></td>
         <td><%= link_to 'Destroy', lesson, method: :delete, data: { confirm: 'Are you sure?' } %></td>
