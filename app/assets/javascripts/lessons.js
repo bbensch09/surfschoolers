@@ -171,10 +171,11 @@ $(function() { LESSON.init(); });
 $(window).bind('page:change', function() { LESSON.init(); });
 // pre-load first student form
 $(document).ready(function(){
-  $('#add-student-button').click();
-  console.log("loaded first student.");
+  if($('.remove-student').length <=1){
+    $('#add-student-button').click();
+    console.log("loaded first student.");
+  }
   var lesson_length = $('.full-form-focus').val()
   $('#lesson-length').append(lesson_length);
   $('#donation-amount').append(lesson_price);
 });
-

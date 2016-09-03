@@ -18,14 +18,14 @@
             </div>
             <div class="field">
               <%= f.label "Instructor Type" %><br />
-              <%= f.select :sport, ['Ski Instructor', 'Snowboard Instructor'], class: 'form-control' %>
+              <%= f.select :sport, ['Always Available', 'Weekends Only'], class: 'form-control' %>
             </div>
             <div class="field">
-              <%= f.label "Preferred Resort" %><br />
-              <%= f.collection_check_boxes :resort_ids, Resort.all, :id, :name do |resort_item| %>
+              <%= f.label "Preferred Beaches" %><br />
+              <%= f.collection_check_boxes :location_ids, Location.all, :id, :name do |location_item| %>
                 <div class="collection-check-box">
-                  <%= resort_item.check_box %>
-                  <%= resort_item.label %>
+                  <%= location_item.check_box %>
+                  <%= location_item.label %>
                 </div>
               <% end %>
             </div>

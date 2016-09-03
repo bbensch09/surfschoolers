@@ -1,7 +1,7 @@
 <p>Requester: <%= @lesson.requester.name %></p>
 
 <% if @lesson.instructor %>
-  <p>Instructor: <%= @lesson.instructor.username %></p>
+  <p>Instructor: <%= @lesson.instructor.name %></p>
 <% else %>
   <% if @lesson.pending_requester? %>
     <p>No instructors available for this date and time. Please edit or cancel.</p>
@@ -15,14 +15,14 @@
     <h4>Basic <strong>Info</strong></h4>
 
     <div class='row'>
-      <div class="col-md-6">
+<!--       <div class="col-md-6">
         <label>Lesson Type:</label>
         <div class='form-control'><%= @lesson.activity %></div>
       </div>
-
-      <div class="col-md-6">
-        <label>Mountain:</label>
-        <div class='form-control'><%= @lesson.resort.name %></div>
+ -->
+      <div class="col-md-12">
+        <label>Location:</label>
+        <div class='form-control'><%= @lesson.location.name %></div>
       </div>
     </div>
 
@@ -92,10 +92,10 @@
         <label>About the student</label>
         <%= student.relationship_to_requester %>
       </div>
-      <div class='col-md-12'>
+  <!--     <div class='col-md-12'>
             <label>Previous Experience </label>
             <%= student.experience.to_s %>
-          </div>
+          </div> -->
     </div>
     <hr>
   <% end %>

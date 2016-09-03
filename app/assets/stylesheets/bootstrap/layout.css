@@ -160,7 +160,7 @@ a, a:hover, a:active,
 #header {
 	display: block;
 	position:relative;
-	height: 70px;
+  height: 120px;
 	background:#333333;
 	color:#fff;
 	border-top:rgba(255,255,255,0.06) 1px solid;

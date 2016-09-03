@@ -50,7 +50,7 @@ class InstructorsController < ApplicationController
 
     respond_to do |format|
       if @instructor.save
-        format.html { redirect_to root_path, notice: 'Your instructor application was successfully submitted, you will be contacted shortly. You may also reach out with questions to info@snowschoolers.com' }
+        format.html { redirect_to root_path, notice: 'Your instructor application was successfully submitted, you will be contacted shortly. You may also reach out with questions to info@surfschoolers.com' }
         format.json { render action: 'show', status: :created, location: @instructor }
       else
         format.html { render action: 'new' }
@@ -96,6 +96,6 @@ class InstructorsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def instructor_params
-      params.require(:instructor).permit(:first_name, :last_name, :username, :preferred_resorts, :certification, :phone_number, :sport, :bio, :intro, :status, resort_ids:[])
+      params.require(:instructor).permit(:first_name, :last_name, :username, :preferred_locations, :certification, :phone_number, :sport, :bio, :intro, :status, location_ids:[])
     end
 end

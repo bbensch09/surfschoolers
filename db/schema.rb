@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20160820042711) do
     t.string   "username"
     t.string   "certification"
     t.string   "phone_number"
-    t.string   "preferred_resorts"
+    t.string   "preferred_locations"
     t.string   "sport"
     t.string   "bio"
     t.string   "intro"
@@ -39,9 +39,9 @@ ActiveRecord::Schema.define(version: 20160820042711) do
     t.datetime "updated_at"
   end
 
-  create_table "instructors_resorts", id: false, force: true do |t|
+  create_table "instructors_locations", id: false, force: true do |t|
     t.integer "instructor_id", null: false
-    t.integer "resort_id",     null: false
+    t.integer "location_id",   null: false
   end
 
   create_table "lesson_times", force: true do |t|
@@ -58,7 +58,8 @@ ActiveRecord::Schema.define(version: 20160820042711) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "activity"
-    t.string   "location"
+    t.string   "requested_location"
+    t.string   "phone_number"
     t.boolean  "gear"
     t.text     "objectives"
     t.string   "state"
@@ -70,7 +71,7 @@ ActiveRecord::Schema.define(version: 20160820042711) do
     t.boolean  "terms_accepted"
   end
 
-  create_table "resorts", force: true do |t|
+  create_table "locations", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -4,7 +4,7 @@
 <ul id="slider">
   <li>
     <!-- <img src="/assets/demo/slider/thredbo-village-resort-hero.jpg" class="bg-photo" alt="" /> -->
-    <img src="/assets/demo/slider/thredbo1.jpg" class="bg-photo" alt="" />
+    <img src="/assets/demo/slider/surfing-bali.jpg" class="bg-photo" alt="" />
     <div class="caption">
 
       <div class="block">
@@ -12,19 +12,19 @@
       </div>
 
       <div class="block">
-        <p>Personalized one-on-one attention from an expert <strong>Snow Schoolers </strong> instructor is the best way to experience the Snowies!</p>
+        <p>Personalized one-on-one attention from an expert <strong>Adventure Out</strong> instructor is the best way to catch your first wave.</p>
       </div>
 
       <%= semantic_form_for @lesson do |f| %>
         <%= f.semantic_errors :instructor %>
           <div class="block inputs">
             <p>
-              <div class="col-md-3">
+<!--               <div class="col-md-3">
                 <%= f.input :activity, as: :select, collection: ['Ski', 'Snowboard'], include_blank: 'Lesson Type', label: false %>
-              </div>
+              </div> -->
 
               <div class="col-md-3">
-                <%= f.input :location, as: :select, collection: Resort.all, include_blank: 'Mountain', label: false %>
+                <%= f.input :requested_location, as: :select, collection: Location.all, include_blank: 'Location', label: false %>
               </div>
 
               <%= f.semantic_fields_for :lesson_time, @lesson_time do |lt_f| %>

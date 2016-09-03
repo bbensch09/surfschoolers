@@ -5,8 +5,8 @@ class Lesson < ActiveRecord::Base
   has_many :students
   accepts_nested_attributes_for :students, reject_if: :all_blank, allow_destroy: true
 
-  validates :activity, :location, :lesson_time, presence: true
-  validates :objectives, :duration, :start_time, :ability_level,
+  validates :requested_location, :lesson_time, presence: true
+  validates :phone_number, :objectives, :duration, :start_time, :ability_level,
             presence: true, on: :update
   # validates :gear, inclusion: { in: [true, false] }, on: :update
   validates :terms_accepted, inclusion: { in: [true], message: 'must accept terms' }, on: :update
@@ -27,8 +27,8 @@ class Lesson < ActiveRecord::Base
     lesson_time.slot
   end
 
-  def resort
-    Resort.find(self.location.to_i)
+  def location
+    Location.find(self.requested_location.to_i)
   end
 
   def active?
@@ -71,15 +71,15 @@ class Lesson < ActiveRecord::Base
     # puts "the lesson location is #{self.location}"
     # resort = Resort.where("id = ?",self.location).first
     # puts "the resort is #{resort.name}"
-    resort_instructors = self.resort.instructors
+    resort_instructors = self.location.instructors
     # puts "there are #{resort_instructors.count} total instructors at #{resort.name}."
-    if self.activity == 'Ski'
-        sport = "Ski Instructor"
-      else
-        sport = "Snowboard Instructor"
-    end
+    # if self.activity == 'Ski'
+    #     sport = "Ski Instructor"
+    #   else
+    #     sport = "Snowboard Instructor"
+    # end
     # puts "The instructor type sought is: #{sport}"
-    eligible_resort_instructors = resort_instructors.where("sport=?",sport)
+    eligible_resort_instructors = resort_instructors
     # puts "Before filtering for booked lessons, there are #{eligible_resort_instructors.count} eligible instructors."
     already_booked_instructors = Lesson.booked_instructors(lesson_time)
     # puts "The number of already booked instructors is: #{already_booked_instructors.count}"
@@ -145,7 +145,7 @@ class Lesson < ActiveRecord::Base
   private
 
   def instructors_must_be_available
-    errors.add(:instructor, " not available at that time. Email info@snowschoolers.com to be notified if there are cancellations.") unless available_instructors.any?
+    errors.add(:instructor, " not available at that time. Email info@surfschoolers.com to be notified if there are cancellations.") unless available_instructors.any?
   end
 
   def requester_must_not_be_instructor

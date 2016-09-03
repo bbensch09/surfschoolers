@@ -1,5 +1,5 @@
 SnowSchoolers::Application.routes.draw do
-  resources :resorts
+  resources :locations
 
   # root to: "lessons#new"
   root to: "welcome#index"

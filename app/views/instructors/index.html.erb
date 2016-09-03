@@ -7,7 +7,7 @@
       <th>Last</th> -->
       <th>Username</th>
       <th>Email</th>
-      <th>Resorts</th>
+      <th>Beaches</th>
       <th>Certification</th>
       <th>Phone number</th>
       <th>Sport</th>
@@ -27,8 +27,8 @@
         <td><%= link_to instructor.username, edit_user_registration_path(instructor.user) %></td>
         <td><%= link_to instructor.user.email, edit_user_registration_path(instructor.user) %></td>
         <td>
-          <% instructor.resorts.each do |resort| %>
-              <%= resort.name %> <br>
+          <% instructor.locations.each do |location| %>
+              <%= location.name %> <br>
           <% end %>
         </td>
         <td><%= instructor.certification %></td>

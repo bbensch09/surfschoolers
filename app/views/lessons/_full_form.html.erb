@@ -12,14 +12,10 @@
           <h4>Basic <strong>Info</strong></h4>
 
           <div class='row'>
-            <div class="col-md-6">
-              <label>Lesson Type</label>
-              <%= f.input :activity, as: :select, collection: ['Ski', 'Snowboard'], include_blank: 'Lesson Type', label: false %>
-            </div>
 
-            <div class="col-md-6">
-              <label>Mountain</label>
-                <%= f.input :location, as: :select, collection: Resort.all, include_blank: 'Mountain', label: false %>
+            <div class="col-md-12">
+              <label>Location</label>
+                <%= f.input :requested_location, as: :select, collection: Location.all, include_blank: 'Beach', label: false %>
             </div>
           </div>
 
@@ -41,12 +37,16 @@
           <div class='row'>
             <div class="col-md-4">
               <label>Lesson Length</label>
-              <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3], ['6 hours', 6]], include_blank: 'Length', label: false, :input_html => { :class => 'full-form-focus'} %>
+              <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3]], include_blank: 'Length', label: false, :input_html => { :class => 'full-form-focus'} %>
             </div>
 
             <div class="col-md-4">
               <label>Start Time</label>
               <%= f.input :start_time, as: :string, input_html: { id: 'timepicker' }, placeholder: 'Pick a start time', label: false %>
+            </div>
+            <div class="col-md-4">
+              <label>Cell Phone</label>
+              <%= f.input :phone_number, as: :string, include_blank: '(xxx)xxx-xxxx', label: false %>
             </div>
 
 <!--             <div class="col-md-4">
@@ -55,16 +55,14 @@
             </div> -->
           </div>
 
-          <h4>Student(s) <strong>Info</strong></h4>
-          <!-- TODO Later: explore cocoon gem to figure out how to preload first student form.
-          https://github.com/nathanvda/cocoon -->
+          <h4>Student <strong>Info</strong></h4>
 
           <div id='lesson_students_input'>
             <%= f.semantic_fields_for :students do |student| %>
               <%= render 'student_fields', f: student %>
             <% end %>
             <div class='links'>
-              <%= link_to_add_association 'Add Student', f, :students, class: 'btn btn-success', id:'add-student-button' %>
+              <%= link_to_add_association 'Add Student', f, :students, class: 'hidden', id:'add-student-button' %>
             </div>
             <%= f.semantic_errors :students %>
           </div>
@@ -75,7 +73,7 @@
 
           <div class='col-md-12'>
             <label>Skill Level</label>
-             <%= f.input :ability_level, as: :select, collection: ['First-time on the mountain', 'Beginner', 'Intermediate','Advanced'], include_blank: 'Ability Level', input_html: {class: 'width100'}, label: false %>
+             <%= f.input :ability_level, as: :select, collection: ['First-time ever', 'Beginner', 'Intermediate','Advanced'], include_blank: 'Ability Level', input_html: {class: 'width100'}, label: false %>
           </div>
           <div class='col-md-12'>
             <label>Objectives</label>
@@ -85,7 +83,7 @@
           <div class="col-md-9">
             <h4>Submit <strong> Lesson Request</strong></h4>
             <h5 id="lesson-length">Lesson Length:</h5>
-            <h5 id="donation-amount">Suggested Donation Amount:</h5>
+            <h5 id="donation-amount">Lesson Price:</h5>
             <span class="remember-box checkbox pull-right">
               <label for="rememberme">
                 <% if @lesson.new? %>
@@ -103,7 +101,7 @@
           </div>
           <% else %>
           <div class="col-md-12">
-            <span class="pull-right"> New members must make a minimum $10 donation prior to booking your first session.
+            <!-- <span class="pull-right"> New members must make a minimum $10 donation prior to booking your first session. -->
               <form action="" method="POST">
                 <script
                   src="https://checkout.stripe.com/checkout.js" class="stripe-button"
@@ -141,7 +139,6 @@
 <img id="cycle-loader" src="/assets/spinner.gif" alt="loader" />
 
 <ul id="slider">
-  <li><img src="/assets/demo/slider/powdery-mountain.jpg" alt="" /></li>
-  <li><img src="/assets/demo/slider/ski-1.jpg" alt="" /></li>
+  <li><img src="/assets/demo/slider/santa-cruz-sunsetbeach.jpg" alt="" /></li>
 </ul>
 <!-- /SLIDER

@@ -6,7 +6,7 @@ class CreateInstructors < ActiveRecord::Migration
       t.string :username
       t.string :certification
       t.string :phone_number
-      t.string :preferred_resorts
+      t.string :preferred_locations
       t.string :sport
       t.string :bio
       t.string :intro

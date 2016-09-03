@@ -20,10 +20,10 @@
         <label>About the student</label>
         <%= f.input :relationship_to_requester, as: :select, collection: ['I am the student.', 'Student is a friend.', 'Student is my significant other.','Student is my child.'], include_blank: 'How is this student related to you?', label: false %>
       </div>
-      <div class='col-md-12'>
+   <!--    <div class='col-md-12'>
             <label>Previous Experience </label>
-            <%= f.input :experience, as: :select, collection: [['Skied (snowboarded) a total of 3 times or less.'], ['Skied (snowboarded) between 4 and 10 times.'], ['Skied (snowboarded) more than 10 days.']], include_blank: 'How experienced is the student?', label: false %>
-          </div>
+            <%= f.input :experience, as: :select, collection: [['Have never surfed before.'], ['Surfed between 1 and 5 times.'], ['Surfed more than 10 days.']], include_blank: 'How experienced is the student?', label: false %>
+          </div> -->
     </div>
   <% end %>
 </div>

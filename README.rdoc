@@ -1,6 +1,6 @@
 == SNOW SCHOOLERS - README
 
-This application is currently under development. For questions or inquiries, please email brian@snowschoolers.com
+This application is currently under development. For questions or inquiries, please email brian@surfschoolers.com
 
 * Ruby version
 

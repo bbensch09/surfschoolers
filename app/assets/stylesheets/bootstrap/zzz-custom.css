@@ -20,7 +20,7 @@ a:hover {
 }
 
 #header, #footer {
-  background: rgba(59, 89, 152, .9);
+  background: #0067ab;
   border-bottom: rgba(255, 255, 255, 0.2) 1px solid;
 }
 
@@ -41,7 +41,7 @@ div.maximage-controls #slider_prev:hover {
 
 #header ul.nav li a.sign-up-btn {
   color: #fff;
-  background-color: #55C9B2;
+  background-color: #0093c9;
   border-radius: 4px;
 }
 
@@ -51,7 +51,7 @@ div.maximage-controls #slider_prev:hover {
 
 .sign-up-btn {
   color: #fff;
-  background-color: #55C9B2;
+  background-color: #0093c9;
 }
 
 .sign-up-btn:hover {
