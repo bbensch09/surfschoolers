@@ -113,7 +113,7 @@ class LessonsController < ApplicationController
   private
 
   def valid_duration_params?
-     if params[:lesson][:actual_start_time].length == 0  || params[:lesson][:actual_end_time].length == 0 || params[:lesson][:actual_duration].length == 0
+     if params[:lesson][:actual_start_time].length == 0  || params[:lesson][:actual_end_time].length == 0
       flash[:alert] = "Please confirm start & end time, as well as lesson duration."
       return false
     else
