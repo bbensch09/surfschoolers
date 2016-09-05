@@ -70,7 +70,11 @@
               <%= link_to name, edit_user_registration_path %>
             </li>
             <li>
+            <% if current_user.instructor.nil? %>
               <%= link_to 'Become an Instructor', new_instructor_path, class: 'sign-up-btn' %>
+              <% else %>
+              <%= link_to 'Instructor Profile', instructor_path(current_user.instructor), class: 'sign-up-btn' %>
+            <% end %>
             </li>
             <li>
               <%= link_to 'Logout', destroy_user_session_path %>
