@@ -11,14 +11,14 @@ class Lesson < ActiveRecord::Base
             presence: true, on: :update
   # validates :gear, inclusion: { in: [true, false] }, on: :update
   validates :terms_accepted, inclusion: { in: [true], message: 'must accept terms' }, on: :update
-  # validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
+  validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
   validate :instructors_must_be_available, unless: :no_instructors_post_instructor_drop?, on: :create
-  # validate :requester_must_not_be_instructor, on: :create
+  validate :requester_must_not_be_instructor, on: :create
   validate :lesson_time_must_be_valid
   validate :student_exists, on: :update
 
   after_update :send_lesson_request_to_instructors
-  # before_save :calculate_actual_lesson_duration, if: :just_finalized?
+  before_save :calculate_actual_lesson_duration, if: :just_finalized?
 
   def date
     lesson_time.date
@@ -59,6 +59,16 @@ class Lesson < ActiveRecord::Base
 
   def waiting_for_payment?
     state == 'waiting for payment'
+  end
+
+  def calculate_actual_lesson_duration
+    start_time = Time.parse(actual_start_time)
+    end_time = Time.parse(actual_end_time)
+    self.actual_duration = (end_time - start_time)/3600
+  end
+
+  def just_finalized?
+    waiting_for_payment?
   end
 
   def price
@@ -170,19 +180,9 @@ class Lesson < ActiveRecord::Base
   end
 
   def send_lesson_request_to_instructors
-    if 2+2==4 #replace with logic that tests whether lesson is newly complete, vs. already booked, etc.
+    if self.active? #replace with logic that tests whether lesson is newly complete, vs. already booked, etc.
       LessonMailer.send_lesson_request_to_instructors(self).deliver
     end
-  end
-
-  def calculate_actual_lesson_duration
-    start_time = Time.parse(actual_start_time)
-    end_time = Time.parse(actual_end_time)
-    self.actual_duration = (end_time - start_time)/3600
-  end
-
-  def just_finalized?
-    waiting_for_payment?
   end
 
   def no_instructors_post_instructor_drop?
