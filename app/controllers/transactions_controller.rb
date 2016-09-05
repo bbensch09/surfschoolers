@@ -53,7 +53,8 @@ class TransactionsController < ApplicationController
   # POST /transactions.json
   def create
     @transaction = Transaction.new(transaction_params)
-    @transaction.final_amount = @transaction.base_amount + @transaction.tip_amount
+    tip_amount = @transaction.tip_amount.nil? ? 0 : @transaction.tip_amount
+    @transaction.final_amount = @transaction.base_amount + tip_amount
     respond_to do |format|
       if @transaction.save
         format.html { redirect_to @transaction.lesson, notice: 'Your tip amount was confirmed, please now complete payment.' }
@@ -70,7 +71,8 @@ class TransactionsController < ApplicationController
   def update
     respond_to do |format|
       if @transaction.update(transaction_params)
-        @transaction.final_amount = @transaction.base_amount + @transaction.tip_amount
+        tip_amount = @transaction.tip_amount.nil? ? 0 : @transaction.tip_amount
+        @transaction.final_amount = @transaction.base_amount + tip_amount
         @transaction.save
         format.html { redirect_to @transaction.lesson, notice: 'Transaction was successfully updated.' }
         format.json { head :no_content }

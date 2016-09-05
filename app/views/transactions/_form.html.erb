@@ -10,7 +10,7 @@
   Lesson Fee: $<%= @lesson.price %>.00
 </h3>
     <!-- <%= f.input :tip_amount, placeholder: '30.00', label: "Include Instructor Tip (optional)", :input_html => {class:'tip-amount-input'} %> -->
-    <%= f.input :tip_amount, as: :select, collection: [['$10.00',10],['$20.00',20],['$30.00',30],['$40.00',40],['$50.00',50]], include_blank: 'Select Tip Amount', label: "Include Instructor Tip (optional)", :input_html => {class:'tip-amount-input'} %>
+    <%= f.input :tip_amount, as: :select, collection: [['$10.00',10],['$20.00',20],['$30.00',30],['$40.00',40],['$50.00',50],['No Tip',0]], include_blank: 'Select Tip Amount', label: "Include Instructor Tip (optional)", :input_html => {class:'tip-amount-input'} %>
   <% end %>
   <%= f.submit "Confirm Tip Amount", class: 'btn btn-success' %>
   <%= link_to 'Back', @transaction.lesson, class: 'btn btn-default' %>

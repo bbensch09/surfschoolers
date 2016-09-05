@@ -11,7 +11,7 @@
     <% end %>
 
     <% if @lesson.finalizing? %>
-      <%= render partial: 'lesson_actions_finalizing' %>
+      <%= render partial: '_confirming_lesson_duration' %>
     <% end %>
 
     <%= render partial: 'lesson_details' %>
