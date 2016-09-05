@@ -4,8 +4,10 @@
     <header class="page-header">
       <h1>Lesson Details</h1>
     </header>
-    <% if @lesson.waiting_for_payment? %>
+    <% if @lesson.waiting_for_payment? && current_user == @lesson.requester %>
       <%= render partial: 'make_payment' %>
+      <% elsif current_user.instructor %>
+          <%= link_to "Edit Lesson Times", mark_lesson_complete_path, method: :put, class: "btn btn-success" %>
     <% end %>
 
     <%= render partial: 'lesson_details' %>

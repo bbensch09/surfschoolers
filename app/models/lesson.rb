@@ -61,7 +61,11 @@ class Lesson < ActiveRecord::Base
   end
 
   def price
-    price = self.duration.to_i * 75
+    if self.actual_duration.nil?
+      price = self.duration.to_i * 75
+    else
+      price = self.actual_duration.to_i*75
+    end
   end
 
   def get_changed_attributes(original_lesson)

@@ -153,8 +153,8 @@ var LESSON = {
   },
 
   initializeConfirmTimepickers: function() {
-    LESSON._actualStartTime.timepicker({ 'minTime': '9:00am', 'maxTime': '2:30pm', 'step': 15 });
-    LESSON._actualEndTime.timepicker({ 'minTime': '11:00am', 'maxTime': '4:30pm', 'step': 15 });
+    LESSON._actualStartTime.timepicker({ 'minTime': '9:00am', 'maxTime': '2:30pm', 'step': 30 });
+    LESSON._actualEndTime.timepicker({ 'minTime': '11:00am', 'maxTime': '4:30pm', 'step': 30 });
     LESSON.disable(LESSON._actualEndTime);
   },
 
@@ -170,6 +170,8 @@ var LESSON = {
 $(function() { LESSON.init(); });
 $(window).bind('page:change', function() { LESSON.init(); });
 // pre-load first student form
+
+
 
 $(document).ready(function(){
   if($('.remove-student').length <=1){
