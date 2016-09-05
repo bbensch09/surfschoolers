@@ -8,7 +8,7 @@
       <th>Deposit Status</th>
       <th>Requester</th>
       <th>Instructor</th>
-      <th>Resort</th>
+      <th>Beach</th>
       <th>Date</th>
       <th>Time Slot</th>
       <th>Time Stamp</th>
@@ -21,7 +21,7 @@
     <% @lessons.each do |lesson| %>
       <tr>
         <td><%= lesson.id %></td>
-        <td><%= link_to "#{lesson.activity} lesson at #{lesson.resort.name}", lesson %></td>
+        <td><%= link_to "#{lesson.activity} lesson at #{lesson.location.name}", lesson %></td>
         <td><%= lesson.deposit_status %></td>
         <td><%= lesson.requester.email %></td>
         <% if lesson.instructor %>
@@ -29,7 +29,7 @@
         <% else %>
         <td>"TBD"</td>
         <% end %>
-        <td><%= lesson.resort.name %></td>
+        <td><%= lesson.location.name %></td>
         <td><%= lesson.lesson_time.date.strftime("%m/%d") %></td>
         <td><%= lesson.lesson_time.slot %></td>
         <td><%= link_to 'Edit', edit_lesson_path(lesson) %></td>

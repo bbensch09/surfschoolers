@@ -82,7 +82,7 @@
 
           <div class="col-md-9">
             <h4>Submit <strong> Lesson Request</strong></h4>
-            <span class="remember-box checkbox pull-right">
+            <span class="remember-box checkbox ">
               <label for="rememberme">
                 <% if @lesson.new? %>
                   <%= f.check_box :terms_accepted, id: "rememberme" %>I agree to the <span><a href="#">Terms and Conditions</a></span>
@@ -100,10 +100,10 @@
           <% else %>
           <div class="col-md-12">
             <!-- <span class="pull-right"> New members must make a minimum $10 donation prior to booking your first session. -->
-              <form action="" method="POST">
+<!--               <form action="/charges" method="POST">
                 <script
                   src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                  data-key="pk_test_V3HBGGiV9ZzWXD8SRsTytwtD"
+                  data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
                   data-amount=2500
                   data-name="Snow Schoolers"
                   data-description="Refundable $25 Lesson Deposit. The remaining balance will be due upon completion of your lesson."
@@ -111,7 +111,29 @@
                   data-locale="auto"
                   data-zip-code="true">
                 </script>
-              </form>
+              </form> -->
+              <%= form_tag charges_path do %>
+                <article>
+                  <% if flash[:error].present? %>
+                    <div id="error_explanation">
+                      <p><%= flash[:error] %></p>
+                    </div>
+                  <% end %>
+                  <label class="amount">
+                    <span>A $25.00 refundable deposit is required to complete your reservation. The remaining balance will be due upon completion of your lesson.</span>
+                  </label>
+                </article>
+
+                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                        data-description="Refundable $25 Lesson Deposit. The remaining balance will be due upon completion of your lesson."
+                        data-name="Adventure Out"
+                        data-image="https://s3.amazonaws.com/snowschoolers/AdventureOut-icon.png"
+                        data-amount="2500"
+                        data-locale="auto"
+                        data-zip-code="true">
+                </script>
+              <% end %>
               </span>
             </div>
           <% end %>
