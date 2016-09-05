@@ -73,6 +73,18 @@
 .full-form-focus{
   border: 1px solid #0067ab;;
 }
+.control-label{
+  font-weight: bold;
+}
+
+@media (min-width:768px) {
+  .vertical-middle{
+    top: 25px;
+    position: relative;
+}
+
+}
+
 @media (max-width: 768px) {
 
 .pricing-container{

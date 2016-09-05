@@ -3,7 +3,7 @@ class LessonsController < ApplicationController
 
   skip_before_action :authenticate_user!, only: [:new, :create]
   before_action :save_lesson_params_and_redirect, only: :create
-  before_action :create_lesson_from_session
+  before_action :create_lesson_from_session, only: [:create, :update]
 
   def index
     @lessons = Lesson.all
@@ -37,21 +37,17 @@ class LessonsController < ApplicationController
     @lesson.assign_attributes(lesson_params)
     @lesson.lesson_time = @lesson_time = LessonTime.find_or_create_by(lesson_time_params)
     if @lesson.deposit_status != 'confirmed'
-
       @amount = 2500
-
         customer = Stripe::Customer.create(
           :email => params[:stripeEmail],
           :source  => params[:stripeToken]
         )
-
         charge = Stripe::Charge.create(
           :customer    => customer.id,
           :amount      => @amount,
           :description => 'Lesson reservation deposit',
           :currency    => 'usd'
         )
-
       @lesson.deposit_status = 'confirmed'
     end
     if @lesson.save
@@ -85,10 +81,19 @@ class LessonsController < ApplicationController
   end
 
   def remove_instructor
+    puts "the params are {#{params}"
     @lesson = Lesson.find(params[:id])
     send_instructor_cancellation_emails
     @lesson.instructor = nil
     @lesson.update(state: @lesson.available_instructors? ? 'new' : 'pending requester')
+    redirect_to @lesson
+  end
+
+  def mark_lesson_complete
+    puts "the params are {#{params}"
+    @lesson = Lesson.find(params[:id])
+    @lesson.state = 'finalizing'
+    @lesson.save
     redirect_to @lesson
   end
 

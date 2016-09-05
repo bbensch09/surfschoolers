@@ -4,6 +4,9 @@
     <header class="page-header">
       <h1>Lesson Details</h1>
     </header>
+    <% if @lesson.waiting_for_payment? %>
+      <%= render partial: 'make_payment' %>
+    <% end %>
 
     <%= render partial: 'lesson_details' %>
 

@@ -1,0 +1,45 @@
+<div class="row">
+    <div class='col-md-12'>
+      <div class="col-md-6">
+        <label>Lesson Start Time:</label>
+        <div class='form-control'><%= @lesson.actual_start_time %></div>
+      </div>
+      <div class="col-md-6">
+        <label>Lesson End Time:</label>
+        <div class='form-control'><%= @lesson.actual_end_time %></div>
+      </div>
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-6">
+          <label>Lesson Duration:</label>
+          <div class='form-control'><%= @lesson.actual_duration %></div>
+        </div>
+    </div>
+    <%= form_tag charges_path do %>
+                <article class="col-md-12">
+                  <% if flash[:error].present? %>
+                    <div id="error_explanation">
+                      <p><%= flash[:error] %></p>
+                    </div>
+                  <% end %>
+                  <h4 class="amount">
+                    Final lesson price: $<%= @lesson.price %>.00
+                    <br>
+                    <span>After deducting your $25.00 reservation deposit, your remaining balance is <b>$<%= @lesson.price - 25%>.00.</b></span>
+                    <br>
+                    <a href="#AddTip" class="btn btn-success">Add Tip</a>
+                  </h4>
+
+                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                        data-description="Refundable $25 Lesson Deposit. The remaining balance will be due upon completion of your lesson."
+                        data-name="Adventure Out"
+                        data-image="https://s3.amazonaws.com/snowschoolers/AdventureOut-icon.png"
+                        data-amount=<%= @lesson.price - 25%>00
+                        data-locale="auto"
+                        data-zip-code="true">
+                </script>
+                </article>
+              <% end %>
+</div>
+<hr>

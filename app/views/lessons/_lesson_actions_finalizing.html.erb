@@ -1,9 +1,21 @@
-<% if current_user == @lesson.instructor %>
+<div class="row">
+<% if current_user == @lesson.instructor.user %>
   <%= semantic_form_for @lesson, url: confirm_lesson_time_path do |f| %>
-    <%= f.input :actual_start_time, as: :string, input_html: { id: 'start-timepicker' } %>
-    <%= f.input :actual_end_time, as: :string, input_html: { id: 'end-timepicker' } %>
-    <%= f.actions %>
+  <div class="col-md-4">
+    <%= f.input :actual_start_time, as: :string, input_html: { id: 'start-timepicker' }, class: "end-times" %>
+  </div>
+  <div class="col-md-4">
+    <%= f.input :actual_end_time, as: :string, input_html: { id: 'end-timepicker' }, class: "end-times" %>
+  </div>
+  <div class="col-md-4">
+    <%= f.submit "Confirm Lesson Times", class: "btn btn-success vertical-middle" %>
+  </div>
   <% end %>
 <% else %>
-  Waiting for instructor to confirm lesson start and end times.
+  <div class="col-md-6">
+    <h4 class="alert-warning  ">
+      Waiting for instructor to confirm lesson start and end times.
+    </h4>
+  </div>
 <% end %>
+</div>

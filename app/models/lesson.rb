@@ -11,14 +11,13 @@ class Lesson < ActiveRecord::Base
   # validates :gear, inclusion: { in: [true, false] }, on: :update
   validates :terms_accepted, inclusion: { in: [true], message: 'must accept terms' }, on: :update
   # validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
-  validate :instructors_must_be_available, unless: :no_instructors_post_instructor_drop?
-  validate :requester_must_not_be_instructor, on: :create
+  validate :instructors_must_be_available, unless: :no_instructors_post_instructor_drop?, on: :create
+  # validate :requester_must_not_be_instructor, on: :create
   validate :lesson_time_must_be_valid
   validate :student_exists, on: :update
 
   after_update :send_lesson_request_to_instructors
   # before_save :calculate_actual_lesson_duration, if: :just_finalized?
-  before_create :check_valid_location
 
   def date
     lesson_time.date
@@ -153,13 +152,8 @@ class Lesson < ActiveRecord::Base
     errors.add(:instructor, " not available at that time. Email info@surfschoolers.com to be notified if there are cancellations.") unless available_instructors.any?
   end
 
-  def check_valid_location
-    # errors.add(:lesson_time, "Please select a location") unless self.requested_location.to_i > 0
-     # unless self.location
-  end
-
   def requester_must_not_be_instructor
-    errors.add(:instructor, "cannot request a lesson") if self.requester.verified_instructor?
+    errors.add(:instructor, "cannot request a lesson") unless self.requester.instructor.nil?
   end
 
   def lesson_time_must_be_valid
