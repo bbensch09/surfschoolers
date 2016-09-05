@@ -36,21 +36,21 @@ class LessonsController < ApplicationController
     @original_lesson = @lesson.dup
     @lesson.assign_attributes(lesson_params)
     @lesson.lesson_time = @lesson_time = LessonTime.find_or_create_by(lesson_time_params)
-    if @lesson.deposit_status != 'confirmed'
-      @amount = 2500
-        customer = Stripe::Customer.create(
-          :email => params[:stripeEmail],
-          :source  => params[:stripeToken]
-        )
-        charge = Stripe::Charge.create(
-          :customer    => customer.id,
-          :amount      => @amount,
-          :description => 'Lesson reservation deposit',
-          :currency    => 'usd'
-        )
-      @lesson.deposit_status = 'confirmed'
-    end
     if @lesson.save
+      if @lesson.deposit_status != 'confirmed'
+        @amount = 2500
+          customer = Stripe::Customer.create(
+            :email => params[:stripeEmail],
+            :source  => params[:stripeToken]
+          )
+          charge = Stripe::Charge.create(
+            :customer    => customer.id,
+            :amount      => @amount,
+            :description => 'Lesson reservation deposit',
+            :currency    => 'usd'
+          )
+        @lesson.deposit_status = 'confirmed'
+      end
       send_lesson_update_notice_to_instructor
       flash[:notice] = 'Thank you, your lesson request was successful. You will receive an email notification when an instructor has been matched to your request. If it has been more than an hour since your request, please email support@surfschoolers.com.'
     else
@@ -62,6 +62,9 @@ class LessonsController < ApplicationController
   def show
     @lesson = Lesson.find(params[:id])
     check_user_permissions
+    # if @lesson.state == "waiting_for_payment"
+    #   @transaction = Transaction.new
+    # end
   end
 
   def destroy
@@ -99,13 +102,25 @@ class LessonsController < ApplicationController
 
   def confirm_lesson_time
     @lesson = Lesson.find(params[:id])
-    @lesson.update(lesson_params.merge(state: 'waiting for payment'))
-    @lesson.state = @lesson.valid? ? 'waiting for payment' : 'confirmed'
-    LessonMailer.send_payment_email_to_requester(@lesson).deliver
+    if valid_duration_params?
+      @lesson.update(lesson_params.merge(state: 'waiting for payment'))
+      @lesson.state = @lesson.valid? ? 'waiting for payment' : 'confirmed'
+      LessonMailer.send_payment_email_to_requester(@lesson).deliver
+    end
     respond_with @lesson, action: :show
   end
 
   private
+
+  def valid_duration_params?
+     if params[:lesson][:actual_start_time].length == 0  || params[:lesson][:actual_end_time].length == 0 || params[:lesson][:actual_duration].length == 0
+      flash[:alert] = "Please confirm start & end time, as well as lesson duration."
+      return false
+    else
+      session[:lesson] = params[:lesson]
+      return true
+    end
+  end
 
   def validate_new_lesson_params
     if params[:lesson][:requested_location].to_i < 1 || params[:lesson][:lesson_time][:date].length < 10

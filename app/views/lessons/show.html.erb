@@ -6,8 +6,12 @@
     </header>
     <% if @lesson.waiting_for_payment? && current_user == @lesson.requester %>
       <%= render partial: 'make_payment' %>
-      <% elsif current_user.instructor %>
+      <% elsif @lesson.waiting_for_payment? && current_user.instructor %>
           <%= link_to "Edit Lesson Times", mark_lesson_complete_path, method: :put, class: "btn btn-success" %>
+    <% end %>
+
+    <% if @lesson.finalizing? %>
+      <%= render partial: 'lesson_actions_finalizing' %>
     <% end %>
 
     <%= render partial: 'lesson_details' %>
@@ -16,9 +20,6 @@
       <%= render partial: 'lesson_actions_active' %>
     <% end %>
 
-    <% if @lesson.finalizing? %>
-      <%= render partial: 'lesson_actions_finalizing' %>
-    <% end %>
 
     <% if @lesson.canceled? %>
       <p>Lesson has been canceled.</p>

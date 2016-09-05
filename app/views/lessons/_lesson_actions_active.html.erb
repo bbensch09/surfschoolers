@@ -14,6 +14,8 @@
   <% if current_user == @lesson.requester %>
     <%= link_to 'Edit Lesson', edit_lesson_path(@lesson) %>
     <%= link_to 'Cancel Lesson', @lesson, method: :delete, class: "btn btn-warning" %>
+    <% if @lesson.instructor %>
     <%= link_to "Mark Lesson Complete", mark_lesson_complete_path, method: :put, class: "btn btn-success" %>
+    <% end %>
   <% end %>
 </div>

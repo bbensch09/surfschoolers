@@ -20,9 +20,13 @@ class ChargesController < ApplicationController
       :currency    => 'usd'
     )
 
+  flash[:notice] = 'Thank you! Your card has been charged successfully, please now review your instructor.'
+  redirect_to root_path
+
   rescue Stripe::CardError => e
     flash[:error] = e.message
     redirect_to new_charge_path
   end
+
 
 end

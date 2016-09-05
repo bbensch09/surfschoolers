@@ -3,6 +3,7 @@ class Lesson < ActiveRecord::Base
   belongs_to :instructor
   belongs_to :lesson_time
   has_many :students
+  has_one :transaction
   accepts_nested_attributes_for :students, reject_if: :all_blank, allow_destroy: true
 
   validates :requested_location, :lesson_time, presence: true

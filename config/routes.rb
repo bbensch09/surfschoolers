@@ -1,4 +1,10 @@
 SnowSchoolers::Application.routes.draw do
+  resources :transactions do
+    member do
+      post :charge_lesson
+    end
+  end
+
   resources :locations
   resources :charges
 

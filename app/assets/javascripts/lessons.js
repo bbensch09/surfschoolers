@@ -179,6 +179,7 @@ $(document).ready(function(){
     console.log("loaded first student.");
   };
   calculatePriceListener();
+  // calculateTotalListener();
 });
 
 var calculatePriceListener = function() {
@@ -191,5 +192,20 @@ var calculatePriceListener = function() {
       console.log("the lesson price is:" +lesson_price);
     $('#donation-amount').html(lesson_price);
 
+  });
+}
+
+// Abandoned this approach for now
+var calculateTotalListener = function() {
+  console.log("totalListener is listening...");
+  $('tip-amount-input').change(function(e){
+    e.preventDefault();
+    console.log("listening for changes to the tip");
+    var tip_amount = $('tip-amount-input').val();
+    var base_amount = $('base-amount-input').val();
+      console.log("the tip amount is:" + tip_amount);
+    var total_amount = base_amount + tip_amount;
+      console.log("the lesson price is:" +total_amount);
+    $('#transaction_final_amount').html(total_amount);
   });
 }

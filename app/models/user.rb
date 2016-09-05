@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:facebook]
 
   has_many :lessons
+  has_many :transactions
   has_one :instructor
   has_many :lesson_times, through: :lessons
   after_create :send_admin_notification

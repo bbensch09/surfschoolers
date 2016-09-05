@@ -79,18 +79,21 @@
             <label>Objectives</label>
             <%= f.input :objectives, placeholder: 'What do you hope to get out of this lesson?', label: false %>
           </div>
-
-          <div class="col-md-9">
-            <h4>Submit <strong> Lesson Request</strong></h4>
+          <div class="col-md-12">
             <span class="remember-box checkbox ">
               <label for="rememberme">
-                <% if @lesson.new? %>
+                  <%= f.check_box :terms_accepted, id: "rememberme" %>I agree to the <span><a href="#">Terms and Conditions</a></span>
+<!--                 <% if @lesson.terms_accepted.nil? %>
                   <%= f.check_box :terms_accepted, id: "rememberme" %>I agree to the <span><a href="#">Terms and Conditions</a></span>
                 <% else %>
                   <%= f.input :terms_accepted, as: :hidden, input_html: { value: true } %>
                 <% end %>
-              </label>
+ -->              </label>
             </span>
+            </div>
+
+          <div class="col-md-9">
+            <h4>Submit <strong> Lesson Request</strong></h4>
           </div>
          <% if @lesson.deposit_status == 'confirmed' %>
           <div class="col-md-3">
