@@ -5,13 +5,17 @@
 
   <% if current_user.instructor && @lesson.instructor && current_user == @lesson.instructor.user %>
     <% if @lesson.pending_instructor? %>
-      <%= button_to "Confirm Updates", set_instructor_path, method: :put, class: "btn btn-default" %>
+      <%= link_to "Confirm Updates", set_instructor_path, method: :put, class: "btn btn-default" %>
     <% end %>
-    <%= button_to "Drop It", remove_instructor_path, method: :put, class: "btn btn-warning" %>
+    <%= link_to "Drop It", remove_instructor_path, method: :put, class: "btn btn-warning" %>
+    <%= link_to "Mark Lesson Complete", mark_lesson_complete_path, method: :put, class: "btn btn-success" %>
   <% end %>
 
   <% if current_user == @lesson.requester %>
     <%= link_to 'Edit Lesson', edit_lesson_path(@lesson) %>
     <%= link_to 'Cancel Lesson', @lesson, method: :delete, class: "btn btn-warning" %>
+    <% if @lesson.instructor %>
+    <%= link_to "Mark Lesson Complete", mark_lesson_complete_path, method: :put, class: "btn btn-success" %>
+    <% end %>
   <% end %>
 </div>

@@ -1,0 +1,54 @@
+<div class="row">
+    <div class='col-md-12'>
+      <div class="col-md-6">
+        <label>Lesson Start Time:</label>
+        <div class='form-control'><%= @lesson.actual_start_time %></div>
+      </div>
+      <div class="col-md-6">
+        <label>Lesson End Time:</label>
+        <div class='form-control'><%= @lesson.actual_end_time %></div>
+      </div>
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-6">
+          <label>Lesson Duration:</label>
+          <div class='form-control'><%= @lesson.actual_duration %></div>
+        </div>
+    </div>
+    <div class="col-md-12">
+      <% if @lesson.transaction.nil? %>
+      <%= render partial: 'transactions/form' %>
+      <% else %>
+        <%= form_tag charge_lesson_transaction_path(@lesson.transaction) do %>
+          <article class="col-md-12">
+            <% if flash[:error].present? %>
+              <div id="error_explanation">
+                <p><%= flash[:error] %></p>
+              </div>
+            <% end %>
+            <h4 class="amount">
+              <br>
+              Lesson fee: <%= number_to_currency(@lesson.price) %>
+              <br>
+              Tip amount: <%= number_to_currency(@lesson.transaction.tip_amount)%>
+              <%= link_to 'Edit Tip', edit_transaction_path(@lesson.transaction), class: 'btn btn-default' %>
+              <br>
+              Total Lesson Cost: <%=number_to_currency(@lesson.transaction.final_amount)%>
+              <br>
+              <span>After deducting your $25.00 reservation deposit, your remaining balance to be charged is <b><%= number_to_currency(@lesson.transaction.final_amount - 25)%>.</b></span>
+            </h4>
+          <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                  data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                  data-description="Lesson Payment"
+                  data-name="Adventure Out"
+                  data-image="https://s3.amazonaws.com/snowschoolers/AdventureOut-icon.png"
+                  data-amount=<%= @lesson.transaction.final_amount.to_i - 25 %>00
+                  data-locale="auto"
+                  data-zip-code="true">
+          </script>
+          </article>
+      <% end %>
+      <% end %>
+    </div>
+</div>
+<hr>

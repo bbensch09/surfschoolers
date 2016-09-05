@@ -3,6 +3,7 @@ class Lesson < ActiveRecord::Base
   belongs_to :instructor
   belongs_to :lesson_time
   has_many :students
+  has_one :transaction
   accepts_nested_attributes_for :students, reject_if: :all_blank, allow_destroy: true
 
   validates :requested_location, :lesson_time, presence: true
@@ -11,8 +12,8 @@ class Lesson < ActiveRecord::Base
   # validates :gear, inclusion: { in: [true, false] }, on: :update
   validates :terms_accepted, inclusion: { in: [true], message: 'must accept terms' }, on: :update
   # validates :actual_start_time, :actual_end_time, presence: true, if: :just_finalized?
-  validate :instructors_must_be_available, unless: :no_instructors_post_instructor_drop?
-  validate :requester_must_not_be_instructor, on: :create
+  validate :instructors_must_be_available, unless: :no_instructors_post_instructor_drop?, on: :create
+  # validate :requester_must_not_be_instructor, on: :create
   validate :lesson_time_must_be_valid
   validate :student_exists, on: :update
 
@@ -58,6 +59,14 @@ class Lesson < ActiveRecord::Base
 
   def waiting_for_payment?
     state == 'waiting for payment'
+  end
+
+  def price
+    if self.actual_duration.nil?
+      price = self.duration.to_i * 75
+    else
+      price = self.actual_duration.to_i*75
+    end
   end
 
   def get_changed_attributes(original_lesson)
@@ -149,7 +158,7 @@ class Lesson < ActiveRecord::Base
   end
 
   def requester_must_not_be_instructor
-    errors.add(:instructor, "cannot request a lesson") if self.requester.verified_instructor?
+    errors.add(:instructor, "cannot request a lesson") unless self.requester.instructor.nil?
   end
 
   def lesson_time_must_be_valid

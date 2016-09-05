@@ -3,7 +3,7 @@ class LessonsController < ApplicationController
 
   skip_before_action :authenticate_user!, only: [:new, :create]
   before_action :save_lesson_params_and_redirect, only: :create
-  before_action :create_lesson_from_session
+  before_action :create_lesson_from_session, only: [:create, :update]
 
   def index
     @lessons = Lesson.all
@@ -36,8 +36,21 @@ class LessonsController < ApplicationController
     @original_lesson = @lesson.dup
     @lesson.assign_attributes(lesson_params)
     @lesson.lesson_time = @lesson_time = LessonTime.find_or_create_by(lesson_time_params)
-    @lesson.deposit_status = 'confirmed'
     if @lesson.save
+      if @lesson.deposit_status != 'confirmed'
+        @amount = 2500
+          customer = Stripe::Customer.create(
+            :email => params[:stripeEmail],
+            :source  => params[:stripeToken]
+          )
+          charge = Stripe::Charge.create(
+            :customer    => customer.id,
+            :amount      => @amount,
+            :description => 'Lesson reservation deposit',
+            :currency    => 'usd'
+          )
+        @lesson.deposit_status = 'confirmed'
+      end
       send_lesson_update_notice_to_instructor
       flash[:notice] = 'Thank you, your lesson request was successful. You will receive an email notification when an instructor has been matched to your request. If it has been more than an hour since your request, please email support@surfschoolers.com.'
     else
@@ -49,6 +62,9 @@ class LessonsController < ApplicationController
   def show
     @lesson = Lesson.find(params[:id])
     check_user_permissions
+    # if @lesson.state == "waiting_for_payment"
+    #   @transaction = Transaction.new
+    # end
   end
 
   def destroy
@@ -68,6 +84,7 @@ class LessonsController < ApplicationController
   end
 
   def remove_instructor
+    puts "the params are {#{params}"
     @lesson = Lesson.find(params[:id])
     send_instructor_cancellation_emails
     @lesson.instructor = nil
@@ -75,22 +92,51 @@ class LessonsController < ApplicationController
     redirect_to @lesson
   end
 
+  def mark_lesson_complete
+    puts "the params are {#{params}"
+    @lesson = Lesson.find(params[:id])
+    @lesson.state = 'finalizing'
+    @lesson.save
+    redirect_to @lesson
+  end
+
   def confirm_lesson_time
     @lesson = Lesson.find(params[:id])
-    @lesson.update(lesson_params.merge(state: 'waiting for payment'))
-    @lesson.state = @lesson.valid? ? 'waiting for payment' : 'confirmed'
-    LessonMailer.send_payment_email_to_requester(@lesson).deliver
+    if valid_duration_params?
+      @lesson.update(lesson_params.merge(state: 'waiting for payment'))
+      @lesson.state = @lesson.valid? ? 'waiting for payment' : 'confirmed'
+      LessonMailer.send_payment_email_to_requester(@lesson).deliver
+    end
     respond_with @lesson, action: :show
   end
 
   private
 
+  def valid_duration_params?
+     if params[:lesson][:actual_start_time].length == 0  || params[:lesson][:actual_end_time].length == 0 || params[:lesson][:actual_duration].length == 0
+      flash[:alert] = "Please confirm start & end time, as well as lesson duration."
+      return false
+    else
+      session[:lesson] = params[:lesson]
+      return true
+    end
+  end
+
+  def validate_new_lesson_params
+    if params[:lesson][:requested_location].to_i < 1 || params[:lesson][:lesson_time][:date].length < 10
+      flash[:alert] = "Please first select a location and date."
+      redirect_to new_lesson_path
+    else
+      session[:lesson] = params[:lesson]
+    end
+  end
+
   def save_lesson_params_and_redirect
     unless current_user
       flash[:alert] = 'You need to sign in or sign up before continuing.'
-      session[:lesson] = params[:lesson]
       redirect_to new_user_registration_path and return
     end
+      validate_new_lesson_params
   end
 
   def create_lesson_from_session
@@ -157,7 +203,7 @@ class LessonsController < ApplicationController
 
   def lesson_params
     params.require(:lesson).permit(:activity, :phone_number, :requested_location, :state, :student_count, :gear, :objectives, :duration, :ability_level,
-      :start_time, :actual_start_time, :actual_end_time, :terms_accepted, :deposit_status,
+      :start_time, :actual_start_time, :actual_end_time, :actual_duration, :terms_accepted, :deposit_status,
       students_attributes: [:id, :name, :age_range, :gender, :relationship_to_requester, :lesson_history, :experience, :_destroy])
   end
 

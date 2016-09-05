@@ -15,7 +15,7 @@
 
             <div class="col-md-12">
               <label>Location</label>
-                <%= f.input :requested_location, as: :select, collection: Location.all, include_blank: 'Beach', label: false %>
+                <%= f.input :requested_location, as: :select, collection: Location.all, include_blank: 'Location', label: false %>
             </div>
           </div>
 
@@ -29,7 +29,7 @@
 
               <div class="col-md-6">
                 <label>Slot</label>
-                <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon', 'Full Day'], include_blank: 'Length', label: false %>
+                <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon'], include_blank: 'Length', label: false %>
               </div>
             </div>
           <% end %>
@@ -37,7 +37,7 @@
           <div class='row'>
             <div class="col-md-4">
               <label>Lesson Length</label>
-              <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3]], include_blank: 'Length', label: false, :input_html => { :class => 'full-form-focus'} %>
+              <%= f.input :duration, as: :select, collection: [['2 hours', 2], ['3 hours', 3]], include_blank: 'Length', label: false, :input_html => { :class => 'lesson-length-input full-form-focus'} %>
             </div>
 
             <div class="col-md-4">
@@ -48,11 +48,11 @@
               <label>Cell Phone</label>
               <%= f.input :phone_number, as: :string, include_blank: '(xxx)xxx-xxxx', label: false %>
             </div>
-
-<!--             <div class="col-md-4">
-              <label>Do you have gear?</label>
-              <%= f.input :gear, as: :select, collection: [['Yes, already have gear.', true], ['No, need gear.', false]], include_blank: '(Skis,boots,etc.)', label: false %>
-            </div> -->
+            <div class="col-md-12">
+            <h4>
+            Price ($75 per hour): $<span id="donation-amount"><%= @lesson.price %></span>.00
+            </h4>
+            </div>
           </div>
 
           <h4>Student <strong>Info</strong></h4>
@@ -79,20 +79,21 @@
             <label>Objectives</label>
             <%= f.input :objectives, placeholder: 'What do you hope to get out of this lesson?', label: false %>
           </div>
-
-          <div class="col-md-9">
-            <h4>Submit <strong> Lesson Request</strong></h4>
-            <h5 id="lesson-length">Lesson Length:</h5>
-            <h5 id="donation-amount">Lesson Price:</h5>
-            <span class="remember-box checkbox pull-right">
+          <div class="col-md-12">
+            <span class="remember-box checkbox ">
               <label for="rememberme">
-                <% if @lesson.new? %>
+                  <%= f.check_box :terms_accepted, id: "rememberme" %>I agree to the <span><a href="#">Terms and Conditions</a></span>
+<!--                 <% if @lesson.terms_accepted.nil? %>
                   <%= f.check_box :terms_accepted, id: "rememberme" %>I agree to the <span><a href="#">Terms and Conditions</a></span>
                 <% else %>
                   <%= f.input :terms_accepted, as: :hidden, input_html: { value: true } %>
                 <% end %>
-              </label>
+ -->              </label>
             </span>
+            </div>
+
+          <div class="col-md-9">
+            <h4>Submit <strong> Lesson Request</strong></h4>
           </div>
          <% if @lesson.deposit_status == 'confirmed' %>
           <div class="col-md-3">
@@ -102,18 +103,40 @@
           <% else %>
           <div class="col-md-12">
             <!-- <span class="pull-right"> New members must make a minimum $10 donation prior to booking your first session. -->
-              <form action="" method="POST">
+<!--               <form action="/charges" method="POST">
                 <script
                   src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                  data-key="pk_test_V3HBGGiV9ZzWXD8SRsTytwtD"
-                  data-amount="1000"
+                  data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                  data-amount=2500
                   data-name="Snow Schoolers"
-                  data-description="New member donation"
-                  data-image="/img/documentation/checkout/marketplace.png"
+                  data-description="Refundable $25 Lesson Deposit. The remaining balance will be due upon completion of your lesson."
+                  data-image="https://s3.amazonaws.com/snowschoolers/AdventureOut-icon.png"
                   data-locale="auto"
                   data-zip-code="true">
                 </script>
-              </form>
+              </form> -->
+              <%= form_tag charges_path do %>
+                <article>
+                  <% if flash[:error].present? %>
+                    <div id="error_explanation">
+                      <p><%= flash[:error] %></p>
+                    </div>
+                  <% end %>
+                  <label class="amount">
+                    <span>A $25.00 refundable deposit is required to complete your reservation. The remaining balance will be due upon completion of your lesson.</span>
+                  </label>
+                </article>
+
+                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                        data-description="Refundable $25 Lesson Deposit. The remaining balance will be due upon completion of your lesson."
+                        data-name="Adventure Out"
+                        data-image="https://s3.amazonaws.com/snowschoolers/AdventureOut-icon.png"
+                        data-amount="2500"
+                        data-locale="auto"
+                        data-zip-code="true">
+                </script>
+              <% end %>
               </span>
             </div>
           <% end %>

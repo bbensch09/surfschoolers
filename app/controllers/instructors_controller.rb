@@ -1,6 +1,6 @@
 class InstructorsController < ApplicationController
   before_action :set_instructor, only: [:show, :edit, :update, :destroy]
-  before_action :confirm_admin_permissions, except: [:create, :new]
+  before_action :confirm_admin_permissions, except: [:create, :new, :show, :edit]
 
   def verify
     instructor = Instructor.find(params[:id])

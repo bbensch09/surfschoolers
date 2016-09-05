@@ -25,7 +25,8 @@
 
               <div class="col-md-3">
                 <%= f.input :requested_location, as: :select, collection: Location.all, include_blank: 'Location', label: false %>
-              </div>
+<!--                 <%= f.input :requested_location, as: :select, collection: ['Pacifica','Santa Cruz'], include_blank: 'Location', label: false %>
+ -->              </div>
 
               <%= f.semantic_fields_for :lesson_time, @lesson_time do |lt_f| %>
                 <div class="col-md-3">

@@ -1,0 +1,35 @@
+<h1>Listing transactions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Lesson</th>
+      <th>Requester</th>
+      <th>Base amount</th>
+      <th>Tip amount</th>
+      <th>Final amount</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @transactions.each do |transaction| %>
+      <tr>
+        <td><%= transaction.lesson_id %></td>
+        <td><%= transaction.requester_id %></td>
+        <td><%= transaction.base_amount %></td>
+        <td><%= transaction.tip_amount %></td>
+        <td><%= transaction.final_amount %></td>
+        <td><%= link_to 'Show', transaction %></td>
+        <td><%= link_to 'Edit', edit_transaction_path(transaction) %></td>
+        <td><%= link_to 'Destroy', transaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Transaction', new_transaction_path %>

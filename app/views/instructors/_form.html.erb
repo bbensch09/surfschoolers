@@ -37,7 +37,11 @@
             </div>
             <div class="row">
               <div class="col-md-12">
-                <%= f.submit "Submit your application", class: "btn sign-up-btn pull-right push-bottom" %>
+                <% if controller.action_name == 'new' %>
+                <%= f.submit "Submit Instructor Application", class: "btn sign-up-btn pull-right push-bottom" %>
+                  <% else %>
+                <%= f.submit "Update Instructor Profile", class: "btn sign-up-btn pull-right push-bottom" %>
+                <% end %>
               </div>
             </div>
           <% end %>

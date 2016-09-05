@@ -8,7 +8,7 @@
       </div>
       <div class='col-md-3'>
         <label>Age Range</label>
-        <%= f.input :age_range, as: :select, collection: ['Under 10','11-17','18-30', '31-40','41-50','51 and up'], include_blank: 'Age Range', label: false %>
+        <%= f.input :age_range, as: :select, collection: ['10-17','18-30', '31-40','41-50','51 and up'], include_blank: 'Age Range', label: false %>
       </div>
       <div class='col-md-3'>
         <label>Gender</label>
@@ -18,7 +18,7 @@
     <div class='row'>
       <div class='col-md-12'>
         <label>About the student</label>
-        <%= f.input :relationship_to_requester, as: :select, collection: ['I am the student.', 'Student is a friend.', 'Student is my significant other.','Student is my child.'], include_blank: 'How is this student related to you?', label: false %>
+        <%= f.input :relationship_to_requester, as: :select, collection: ['I am the student.','Student is my child.', 'Student is a friend.', 'Student is my significant other.'], include_blank: 'How is this student related to you?', label: false %>
       </div>
    <!--    <div class='col-md-12'>
             <label>Previous Experience </label>

@@ -31,7 +31,7 @@ var LESSON = {
     LESSON._actualStartTime.change(LESSON.updateInstructorTimepickers);
   },
 
-  setDatepicker: function() { LESSON._date.datepicker({ minDate: 0, dateFormat: 'yy-mm-dd' }); },
+  setDatepicker: function() { LESSON._date.datepicker({ minDate: 1, dateFormat: 'yy-mm-dd' }); },
 
   toggleDuration: function() {
     if (LESSON.slotValid()) {
@@ -153,8 +153,8 @@ var LESSON = {
   },
 
   initializeConfirmTimepickers: function() {
-    LESSON._actualStartTime.timepicker({ 'minTime': '9:00am', 'maxTime': '2:30pm', 'step': 15 });
-    LESSON._actualEndTime.timepicker({ 'minTime': '11:00am', 'maxTime': '4:30pm', 'step': 15 });
+    LESSON._actualStartTime.timepicker({ 'minTime': '9:00am', 'maxTime': '2:30pm', 'step': 30 });
+    LESSON._actualEndTime.timepicker({ 'minTime': '11:00am', 'maxTime': '4:30pm', 'step': 30 });
     LESSON.disable(LESSON._actualEndTime);
   },
 
@@ -170,12 +170,42 @@ var LESSON = {
 $(function() { LESSON.init(); });
 $(window).bind('page:change', function() { LESSON.init(); });
 // pre-load first student form
+
+
+
 $(document).ready(function(){
   if($('.remove-student').length <=1){
     $('#add-student-button').click();
     console.log("loaded first student.");
-  }
-  var lesson_length = $('.full-form-focus').val()
-  $('#lesson-length').append(lesson_length);
-  $('#donation-amount').append(lesson_price);
+  };
+  calculatePriceListener();
+  // calculateTotalListener();
 });
+
+var calculatePriceListener = function() {
+  $('.lesson-length-input').change(function(e){
+    e.preventDefault();
+    console.log("listening for changes to lesson_length");
+    var lesson_length = $('.lesson-length-input').val();
+      console.log("the input value is:" + lesson_length);
+    var lesson_price = lesson_length*75;
+      console.log("the lesson price is:" +lesson_price);
+    $('#donation-amount').html(lesson_price);
+
+  });
+}
+
+// Abandoned this approach for now
+var calculateTotalListener = function() {
+  console.log("totalListener is listening...");
+  $('tip-amount-input').change(function(e){
+    e.preventDefault();
+    console.log("listening for changes to the tip");
+    var tip_amount = $('tip-amount-input').val();
+    var base_amount = $('base-amount-input').val();
+      console.log("the tip amount is:" + tip_amount);
+    var total_amount = base_amount + tip_amount;
+      console.log("the lesson price is:" +total_amount);
+    $('#transaction_final_amount').html(total_amount);
+  });
+}
