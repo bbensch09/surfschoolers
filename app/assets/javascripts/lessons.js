@@ -31,7 +31,7 @@ var LESSON = {
     LESSON._actualStartTime.change(LESSON.updateInstructorTimepickers);
   },
 
-  setDatepicker: function() { LESSON._date.datepicker({ minDate: 0, dateFormat: 'yy-mm-dd' }); },
+  setDatepicker: function() { LESSON._date.datepicker({ minDate: 1, dateFormat: 'yy-mm-dd' }); },
 
   toggleDuration: function() {
     if (LESSON.slotValid()) {

@@ -102,12 +102,21 @@ class LessonsController < ApplicationController
 
   private
 
+  def validate_new_lesson_params
+    if params[:lesson][:requested_location].to_i < 1 || params[:lesson][:lesson_time][:date].length < 10
+      flash[:alert] = "Please first select a location and date."
+      redirect_to new_lesson_path
+    else
+      session[:lesson] = params[:lesson]
+    end
+  end
+
   def save_lesson_params_and_redirect
     unless current_user
       flash[:alert] = 'You need to sign in or sign up before continuing.'
-      session[:lesson] = params[:lesson]
       redirect_to new_user_registration_path and return
     end
+      validate_new_lesson_params
   end
 
   def create_lesson_from_session

@@ -18,6 +18,7 @@ class Lesson < ActiveRecord::Base
 
   after_update :send_lesson_request_to_instructors
   # before_save :calculate_actual_lesson_duration, if: :just_finalized?
+  before_create :check_valid_location
 
   def date
     lesson_time.date
@@ -150,6 +151,11 @@ class Lesson < ActiveRecord::Base
 
   def instructors_must_be_available
     errors.add(:instructor, " not available at that time. Email info@surfschoolers.com to be notified if there are cancellations.") unless available_instructors.any?
+  end
+
+  def check_valid_location
+    # errors.add(:lesson_time, "Please select a location") unless self.requested_location.to_i > 0
+     # unless self.location
   end
 
   def requester_must_not_be_instructor

@@ -15,7 +15,7 @@
 
             <div class="col-md-12">
               <label>Location</label>
-                <%= f.input :requested_location, as: :select, collection: Location.all, include_blank: 'Beach', label: false %>
+                <%= f.input :requested_location, as: :select, collection: Location.all, include_blank: 'Location', label: false %>
             </div>
           </div>
 
@@ -29,7 +29,7 @@
 
               <div class="col-md-6">
                 <label>Slot</label>
-                <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon', 'Full Day'], include_blank: 'Length', label: false %>
+                <%= lt_f.input :slot, as: :select, collection: ['Morning', 'Afternoon'], include_blank: 'Length', label: false %>
               </div>
             </div>
           <% end %>
