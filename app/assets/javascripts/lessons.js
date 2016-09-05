@@ -170,12 +170,24 @@ var LESSON = {
 $(function() { LESSON.init(); });
 $(window).bind('page:change', function() { LESSON.init(); });
 // pre-load first student form
+
 $(document).ready(function(){
   if($('.remove-student').length <=1){
     $('#add-student-button').click();
     console.log("loaded first student.");
-  }
-  var lesson_length = $('.full-form-focus').val()
-  $('#lesson-length').append(lesson_length);
-  $('#donation-amount').append(lesson_price);
+  };
+  calculatePriceListener();
 });
+
+var calculatePriceListener = function() {
+  $('.lesson-length-input').change(function(e){
+    e.preventDefault();
+    console.log("listening for changes to lesson_length");
+    var lesson_length = $('.lesson-length-input').val();
+      console.log("the input value is:" + lesson_length);
+    var lesson_price = lesson_length*75;
+      console.log("the lesson price is:" +lesson_price);
+    $('#donation-amount').html(lesson_price);
+
+  });
+}

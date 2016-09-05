@@ -60,6 +60,10 @@ class Lesson < ActiveRecord::Base
     state == 'waiting for payment'
   end
 
+  def price
+    price = self.duration.to_i * 75
+  end
+
   def get_changed_attributes(original_lesson)
     lesson_changes = self.previous_changes
     lesson_time_changes = self.lesson_time.attributes.diff(original_lesson.lesson_time.attributes)
