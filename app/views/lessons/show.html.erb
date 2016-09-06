@@ -14,11 +14,12 @@
       <%= render partial: 'confirming_lesson_duration' %>
     <% end %>
 
-    <%= render partial: 'lesson_details' %>
-
     <% if @lesson.active? %>
       <%= render partial: 'lesson_actions_active' %>
     <% end %>
+
+    <%= render partial: 'lesson_details' %>
+
 
 
     <% if @lesson.canceled? %>
